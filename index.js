@@ -2,14 +2,17 @@ const express = require("express");
 
 const app = express();
 
+app.set("views", "./views");
+app.set('view engine', 'pug');
+
 const port = 3000;
 
 app.get("/", (req, res) => {
-    res.send("Nguyen Dang Cuong");
+    res.render("client/pages/home/index.pug");
 })
 
 app.get("/products", (req, res) => {
-    res.send("Nguyen Dang Cuong - Trang danh sach san pham")
+    res.render("client/pages/products/index.pug");
 })
 
 app.listen(port, () => {
