@@ -1,4 +1,5 @@
 const express = require("express");
+const route = require("./routes/index.route.js");
 
 const app = express();
 
@@ -7,13 +8,9 @@ app.set('view engine', 'pug');
 
 const port = 3000;
 
-app.get("/", (req, res) => {
-    res.render("client/pages/home/index.pug");
-})
+route(app);
 
-app.get("/products", (req, res) => {
-    res.render("client/pages/products/index.pug");
-})
+
 
 app.listen(port, () => {
     console.log(`Chay tren cong ${port}`);
