@@ -1,7 +1,8 @@
 const express = require("express");
-const route = require("./routes/client/index.route.js");
+const routeClient = require("./routes/client/index.route.js");
 const dotenv = require("dotenv");
 const database = require("./config/database.js");
+const routeAdmin = require("./routes/admin/index.route.js");
 
 dotenv.config();
 
@@ -17,7 +18,8 @@ app.use(express.static('public'))
 
 const port = process.env.PORT;
 
-route(app);
+routeClient(app);
+routeAdmin(app);
 
 
 

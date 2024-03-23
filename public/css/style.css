@@ -3,6 +3,11 @@
 .header {
     border-bottom: 1px solid #ddd;
     padding: 10px 0;
+    position: sticky;
+    z-index: 999;
+    top: 0;
+    background-color: #fff;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .header .inner-logo img {
