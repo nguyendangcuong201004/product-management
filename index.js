@@ -1,8 +1,12 @@
 const express = require("express");
 const route = require("./routes/client/index.route.js");
 const dotenv = require("dotenv");
+const database = require("./config/database.js");
 
 dotenv.config();
+
+database.connect();
+
 
 const app = express();
 
