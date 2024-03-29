@@ -8,7 +8,6 @@ module.exports.index = async (req, res) => {
         // deleted: false
     });
 
-    console.log(products);
 
     res.render("client/pages/products/index.pug", {
         pageTitle: "Danh sách sản phẩm",
