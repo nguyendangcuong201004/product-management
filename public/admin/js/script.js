@@ -80,3 +80,54 @@ if (listButtonChangeStatus.length > 0){
         });
     })
 }
+
+
+// Check box multi
+const checkBoxMulti = document.querySelector("[checkbox-multi]");
+if (checkBoxMulti) {
+    const inputCheckAll = checkBoxMulti.querySelector("input[name=checkall]")
+    const listInputCheckBox = checkBoxMulti.querySelectorAll("input[name=id]");
+    
+
+    inputCheckAll.addEventListener("click", () => {
+        listInputCheckBox.forEach((item) => {
+            item.checked = inputCheckAll.checked;
+        })
+    })
+
+    listInputCheckBox.forEach((item) => {
+        item.addEventListener("click", () => {
+            const countInputChecked = checkBoxMulti.querySelectorAll("input[name='id']:checked");
+            if (countInputChecked.length == listInputCheckBox.length){
+                inputCheckAll.checked = true;
+            }
+            else inputCheckAll.checked = false;
+        })
+    })
+}
+
+
+// form
+
+const formChangeMulti = document.querySelector("[form-change-multi]");
+if (formChangeMulti){
+    formChangeMulti.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const listInputChecked = document.querySelectorAll("input[name=id]:checked");
+        if (listInputChecked.length > 0){
+            const ids = [];
+            listInputChecked.forEach((item) => {
+                const id = item.value;
+                ids.push(id);
+            })
+            const inputIDS = document.querySelector("[name='ids']");
+            console.log(inputIDS);
+            inputIDS.value = ids.join(", ");
+            formChangeMulti.submit()
+            
+        }
+        else {
+            alert("Vui lòng sản phẩm!");
+        }
+    })
+}
