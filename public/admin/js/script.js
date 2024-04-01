@@ -1,5 +1,7 @@
 const listButtonStatus = document.querySelectorAll("[button-status]");
 
+
+// Tim kiem
 if (listButtonStatus.length > 0){
 
     let url = new URL(location.href);
@@ -19,6 +21,8 @@ if (listButtonStatus.length > 0){
 }   
 
 
+// Search
+
 const formSearch = document.querySelector("#form-search");
 if (formSearch){
     let url = new URL(location.href);
@@ -33,5 +37,18 @@ if (formSearch){
             url.searchParams.delete("keyword");
         }
         location.href = url.href;
+    })
+}
+
+// Phan trang
+
+const listButtonPagination = document.querySelectorAll("[button-pagination]");
+if (listButtonPagination.length > 0){
+    let url = new URL(location.href);
+    listButtonPagination.forEach((item) => {
+        item.addEventListener("click", () => {
+            url.searchParams.set("page", item.getAttribute("button-pagination"));
+            location.href = url.href;
+        })
     })
 }

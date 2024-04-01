@@ -1,9 +1,13 @@
 extends ../../layouts/default.pug
 include ../../mixins/filter.pug
+include ../../mixins/search.pug
+include ../../mixins/pagination.pug
+
 
 block main 
     h1(class="mb-4") Danh sách sản phẩm 
 
+    -   var skip = objectPagination.skip
 
     .card.mb3 
         .card-header Bộ lọc và tìm kiếm
@@ -12,11 +16,7 @@ block main
                 .col-6
                     +filter(filterStatus)
                 .col-6  
-                    form(id="form-search")
-                        .input-group
-                            input(type="text" placeholder="Nhập từ khóa" name="keyword" class="form-control" value=keyword)
-                            .input-group-append
-                                button(class="btn btn-success" type="submit") Tìm
+                    +search(keyword)
 
             
     
@@ -35,7 +35,7 @@ block main
                 tbody 
                     each item, index in products
                         tr
-                            td #{index + 1}
+                            td #{++skip}
                             td
                                 img(
                                     src=item.thumbnail
@@ -47,10 +47,11 @@ block main
                             td #{item.price}$
                             td
                                 if (item.status == "active")
-                                    a(href="#" class="badge badge-success") Hoạt động
+                                    a(href=`/admin/products/inactive/${item.id}` class="badge badge-success") Hoạt động
                                 else 
-                                    a(href="#" class="badge badge-danger") Dừng hoạt động
+                                    a(href=`/admin/products/active/${item.id}` class="badge badge-danger") Dừng hoạt động
                             td
                                 button(class="btn btn-warning btn-sm") Sửa
                                 button(class="btn btn-danger btn-sm ml-1") Xóa
-                    
+    
+    +pagination(objectPagination)
