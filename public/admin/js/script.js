@@ -1,3 +1,5 @@
+
+
 const listButtonStatus = document.querySelectorAll("[button-status]");
 
 
@@ -50,5 +52,31 @@ if (listButtonPagination.length > 0){
             url.searchParams.set("page", item.getAttribute("button-pagination"));
             location.href = url.href;
         })
+    })
+}
+
+
+// Button change status
+
+const listButtonChangeStatus = document.querySelectorAll("[button-change-status]");
+
+if (listButtonChangeStatus.length > 0){
+
+    const formChangeStatus = document.querySelector("[form-change-status]");
+
+    listButtonChangeStatus.forEach((button) => {
+        button.addEventListener("click", () => {
+            const id = button.getAttribute("data-id");
+            const status = button.getAttribute("data-status");
+
+            const path = formChangeStatus.getAttribute("data-patch");
+    
+            const action = path + `/${status}/${id}?_method=PATCH`;
+    
+            formChangeStatus.action = action;
+
+            formChangeStatus.submit();
+
+        });
     })
 }
