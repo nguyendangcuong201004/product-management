@@ -120,18 +120,21 @@ if (formChangeMulti){
             const ids = [];
             listInputChecked.forEach((item) => {
                 const id = item.value;
-                ids.push(id);
+                if (type.value == "change-position"){
+                    const position = item.closest("tr").querySelector("input[name='position']");
+                    ids.push(`${id}-${position.value}`);
+                }
+                else ids.push(id);
             })
             const inputIDS = document.querySelector("[name='ids']");
-            console.log(inputIDS);
             inputIDS.value = ids.join(", ");
             if (type.value == "deleteAll"){
-                if (confirm("Bạn có chắc muốn xóa?")){
-                    formChangeMulti.submit()
+                if (!confirm("Bạn có chắc muốn xóa?")){
+                    return;
                 }
             }
-            else formChangeMulti.submit()
-            
+            console.log(ids)
+            formChangeMulti.submit();
         }
         else {
             alert("Vui lòng sản phẩm!");
