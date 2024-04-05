@@ -2,9 +2,14 @@ extends ../../layouts/default.pug
 include ../../mixins/filter.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
+include ../../mixins/alert.pug
 
 
 block main 
+
+    +alert-success()
+            
+
     h1(class="mb-4") Danh sách sản phẩm 
 
     -   var skip = objectPagination.skip
