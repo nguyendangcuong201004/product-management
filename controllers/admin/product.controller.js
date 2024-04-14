@@ -129,3 +129,31 @@ module.exports.deleteProducts = async (req, res) => {
     req.flash('success', 'Xóa sản phẩm thành công!');
     res.redirect("back")
 }
+
+//[GET] /admin/products/create
+module.exports.create = async (req, res) => {
+    res.render("admin/pages/products/create.pug", {
+        pageTitle: "Thêm mới sản phẩm"
+    });
+}
+
+//[POST] /admin/products/create
+module.exports.createPost = async (req, res) => {
+    req.body.price = parseInt(req.body.price);
+    req.body.discountPercentage = parseInt(req.body.discountPercentage);
+    req.body.stock = parseInt(req.body.stock);  
+    if(req.body.position){
+        req.body.position = parseInt(req.body.position);  
+    }
+    else {
+        const countRecords = await Product.countDocuments({});
+        req.body.position = countRecords + 1;
+    }
+    
+    const record = new Product(req.body);
+    await record.save();
+
+    req.flash('success', 'Thêm mới sản phẩm thành công!');
+
+    res.redirect(`${prefixAdmin}/products`);
+}
