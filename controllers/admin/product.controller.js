@@ -139,16 +139,6 @@ module.exports.create = async (req, res) => {
 
 //[POST] /admin/products/create
 module.exports.createPost = async (req, res) => {
-    if (!req.body.title){
-        req.flash("error", "Vui lòng nhập tiêu đề sản phẩm!");
-        res.redirect("back");
-        return;
-    }
-    if (req.body.title.length){
-        req.flash("error", "Vui lòng nhập tiêu đề ít nhất 5 kí tự!");
-        res.redirect("back");
-        return;
-    }
     req.body.price = parseInt(req.body.price);
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);  
