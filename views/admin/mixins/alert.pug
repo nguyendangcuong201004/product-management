@@ -6,3 +6,12 @@ mixin alert-success()
             ) 
                 |   #{messages.success}
                 button(class="alert alert-danger btn-sm" close-alert) x
+
+mixin alert-error()
+    -   if (messages.error)
+            div(class="alert alert-danger" 
+            show-alert
+            data-time="5000"
+            ) 
+                |   #{messages.error}
+                button(class="alert alert-danger btn-sm" close-alert) x
