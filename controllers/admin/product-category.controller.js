@@ -2,9 +2,14 @@ const ProductCategory = require("../../models/product-category.model.js");
 const prefixAdmin = require("../../config/system.js");
 
 // [GET] /admin/products-category
-module.exports.index = (req, res) => {
+module.exports.index = async (req, res) => {
+    const records = await ProductCategory.find({
+        deleted: false,
+    });
+
     res.render("admin/pages/products-category/index.pug", {
-        pageTitle: "Danh mục sản phẩm"
+        pageTitle: "Danh mục sản phẩm",
+        records: records
     })
 }
 
