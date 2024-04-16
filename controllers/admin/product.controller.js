@@ -27,6 +27,21 @@ module.exports.index = async (req, res) => {
 
     // Pagination
 
+    //Sort
+
+    const sort = {};
+    if (req.query.sortKey && req.query.sortValue){
+        const sortKey = req.query.sortKey;
+        const sortValue = req.query.sortValue;
+        sort[sortKey] = sortValue;
+    }   
+    else {
+        sort.position = "desc"
+    }
+
+
+    //Sort
+
     const countRecords = await Product.countDocuments(find);
 
     const objectPagination = paginationHelper(req, countRecords);
@@ -35,7 +50,7 @@ module.exports.index = async (req, res) => {
         .find(find)
         .limit(objectPagination.limitItems)
         .skip(objectPagination.skip)
-        .sort({ position: "desc" });
+        .sort(sort);
     // console.log(products)
     res.render("admin/pages/products/index.pug", {
         pageTitle: "Trang danh sách sản phẩm",
@@ -210,3 +225,4 @@ module.exports.detail = async (req, res) => {
         product: product
     })
 }
+
