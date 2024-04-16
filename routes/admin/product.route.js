@@ -23,7 +23,8 @@ router.delete("/delete/:id", controller.deleteProducts);
 
 router.get("/create", controller.create);
 
-router.post("/create", upload.single('thumbnail'), 
+router.post("/create", 
+upload.single('thumbnail'), 
 uploadCloud.uploadSingle,
 validate.createPost ,
 controller.createPost
