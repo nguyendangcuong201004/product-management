@@ -1,5 +1,6 @@
 const ProductCategory = require("../../models/product-category.model.js");
 const prefixAdmin = require("../../config/system.js");
+const createTreeHepler = require("../../helpers/createTree.helper.js");
 
 // [GET] /admin/products-category
 module.exports.index = async (req, res) => {
@@ -20,9 +21,12 @@ module.exports.create = async (req, res) => {
         deleted: false
     });
 
+    const newRecords = createTreeHepler(records);
+
+
     res.render("admin/pages/products-category/create.pug", {
         pageTitle: "Thêm mới danh mục sản phẩm ",
-        records: records
+        records: newRecords
     })
 }
 
