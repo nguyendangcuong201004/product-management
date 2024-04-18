@@ -235,3 +235,65 @@ if(sortClear){
     })
 }
 // Sort
+
+// button-submit-permissions cho phan quyen
+
+const buttonSubmitPermissions = document.querySelector('[button-submit-permissions]');
+
+if (buttonSubmitPermissions) {
+    buttonSubmitPermissions.addEventListener("click", () => {
+        const roles = [];
+        const tablePermissions = document.querySelector('[table-permissions]');
+        const rows = tablePermissions.querySelectorAll("tbody tr[data-name]");
+        rows.forEach((row, index) => {
+            const dataName = row.getAttribute("data-name");
+            const inputs = row.querySelectorAll("input");
+            if (dataName == "id"){
+                inputs.forEach((input) => {
+                    const id = input.value;
+                    roles.push({
+                        id: id,
+                        permissions: []
+                    })
+                })
+            }
+            else {
+                inputs.forEach((input, index) => {
+                    const inputCheck = input.checked;
+                    if (inputCheck){
+                        roles[index].permissions.push(dataName);
+                    }
+                })
+            }
+        })
+        console.log(roles)
+        if (roles.length > 0){
+            const formChangePermissions = document.querySelector("[form-change-permissions ]");
+            const inputRole = formChangePermissions.querySelector("input");
+            inputRole.value = JSON.stringify(roles);
+            formChangePermissions.submit()
+        }
+    })
+}
+// button-submit-permissions cho phan quyen
+
+
+// Data default
+
+const dataRecords = document.querySelector("[data-records]");
+if (dataRecords){
+    const records = JSON.parse(dataRecords.getAttribute("data-records"));
+    const tablePermissions = document.querySelector("[table-permissions]");
+    records.forEach((record, index) => {
+        const permissions = record.permissions;
+        permissions.forEach((role) => {
+            const rows = tablePermissions.querySelectorAll(`tr[data-name="${role}"]`);
+            rows.forEach((row) => {
+                const inputs = row.querySelectorAll(`input`);
+                inputs[index].checked = true
+            })
+        })
+    })
+}
+
+// Data default

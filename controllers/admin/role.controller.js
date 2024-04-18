@@ -54,7 +54,7 @@ module.exports.edit = async (req, res) => {
     }
 }
 
-// [GET] /roles/edit/:id
+// [PATCH] /roles/edit/:id
 module.exports.editPatch = async (req, res) => {
     const id = req.params.id;
 
@@ -68,4 +68,37 @@ module.exports.editPatch = async (req, res) => {
         req.flash("error", "Cập nhật Nhóm quyền không thành công!");
     }
     res.redirect("back");
+}
+
+// [GET] /roles/edit/:id
+module.exports.permissions = async (req, res) => {
+
+    let find = {
+        deleted: false
+    }
+
+    const records = await Role.find(find);
+
+    res.render("admin/pages/roles/permissions.pug", {
+        pageTitle: "Trang phân quyền",
+        records: records
+    })
+}
+
+// [PATCH] /roles/edit/:id
+module.exports.permissionsPatch = async (req, res) => {
+
+    const roles = JSON.parse(req.body.roles);
+
+    for (const role of roles){
+        await Role.updateOne({
+            _id: role.id
+        }, {
+            permissions: role.permissions
+        })
+    }
+
+    req.flash("success", "Cập nhật phân quyền thành công!!!")
+
+    res.redirect("back")
 }
