@@ -2,6 +2,8 @@ const Product = require("../../models/product.model.js");
 const filterHelper = require("../../helpers/filter.helper.js");
 const paginationHelper = require("../../helpers/pagination.helper.js");
 const prefixAdmin = require("../../config/system.js");
+const ProductCategory = require("../../models/product-category.model.js");
+const createTreeHelper = require("../../helpers/createTree.helper.js");
 
 // [GET] /admin/products
 
@@ -147,8 +149,16 @@ module.exports.deleteProducts = async (req, res) => {
 
 //[GET] /admin/products/create
 module.exports.create = async (req, res) => {
+
+    const category = await ProductCategory.find({
+        deleted: false
+    });
+
+    const newCategory = createTreeHelper(category);
+
     res.render("admin/pages/products/create.pug", {
-        pageTitle: "Thêm mới sản phẩm"
+        pageTitle: "Thêm mới sản phẩm",
+        category: newCategory,
     });
 }
 
@@ -168,6 +178,8 @@ module.exports.createPost = async (req, res) => {
     // if (req.file){
     //     req.body.thumbnail = `/uploads/${req.file.filename}`;
     // }
+
+    console.log(req.body);
 
     const record = new Product(req.body);
     await record.save();
