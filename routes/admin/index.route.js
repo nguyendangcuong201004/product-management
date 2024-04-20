@@ -3,6 +3,7 @@ const systemConfig = require("../../config/system.js");
 const productRoutes = require("./product.route.js");
 const productCategoryRoutes = require("./product-category.router.js");
 const roleRoutes = require("./role.route.js");
+const accountRoutes = require("./account.route.js");
 
 module.exports = (app) => {
     app.use(systemConfig + "/dashboard", dashboardRoutes);
@@ -12,4 +13,6 @@ module.exports = (app) => {
     app.use(systemConfig + "/products-category", productCategoryRoutes)
 
     app.use(systemConfig + "/roles", roleRoutes)
+
+    app.use(systemConfig + "/accounts", accountRoutes)
 }
