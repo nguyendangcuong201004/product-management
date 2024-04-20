@@ -1,11 +1,12 @@
 mixin alert-success()
-    -   if (messages.success)
-            div(class="alert alert-success" 
+    -    if (messages.success)
+            div(
+            class="alert alert-success"
             show-alert
             data-time="5000"
-            ) 
-                |   #{messages.success}
-                button(class="alert alert-danger btn-sm" close-alert) x
+            )
+                | #{messages.success}
+                button(class="btn btn-danger" style="margin-left: 10px" close-alert) x
 
 mixin alert-error()
     -   if (messages.error)
@@ -14,4 +15,4 @@ mixin alert-error()
             data-time="5000"
             ) 
                 |   #{messages.error}
-                button(class="alert alert-danger btn-sm" close-alert) x
+                button(class="btn btn-danger" style="margin-left: 10px" close-alert) x

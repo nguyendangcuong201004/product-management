@@ -35,3 +35,38 @@ module.exports.createPost = async (req, res, next) => {
 
     next();
 }
+
+
+module.exports.editPatch = async (req, res, next) => {
+    if (!req.body.fullName){
+        req.flash("error", "Vui lòng nhập tên của bạn!");
+        res.redirect("back");
+        return;
+    }
+    if (req.body.fullName.length < 5){
+        req.flash("error", "Vui lòng nhập tên có ít nhất 5 kí tự!");
+        res.redirect("back");
+        return;
+    }
+    if (!req.body.email){
+        req.flash("error", "Vui lòng nhập email của bạn!");
+        res.redirect("back");
+        return;
+    }
+
+    const id = req.params.id;
+
+    const exitEmail = await Account.findOne({
+        _id: { $ne: id }, // not equal
+        email: req.body.email,
+        deleted: false
+    })
+
+    if (exitEmail){
+        req.flash("error", "Email đã tồn tại!");
+        res.redirect("back");
+        return;
+    }
+
+    next();
+}
