@@ -32,4 +32,6 @@ validate.editPatch,
 controller.editPatch
 );
 
+router.patch("/delete/:id", controller.delete)
+
 module.exports = router;

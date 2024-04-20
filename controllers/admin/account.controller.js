@@ -112,3 +112,21 @@ module.exports.editPatch = async (req, res) => {
     }
     
 }
+
+// [PATCH] /admin/accounts/edit/:id // delete
+module.exports.delete = async (req, res) => {   
+    try {
+        const id = req.params.id;
+        await Account.updateOne({
+            _id: id
+        }, {
+            deleted: true
+        })
+        req.flash("success", "Tài khoản được xóa thành công !");
+        res.redirect("back")
+    } 
+    catch(error){
+        res.redirect(`${prefixAdmin}/accounts`)
+    }
+    
+}

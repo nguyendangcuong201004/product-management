@@ -53,9 +53,15 @@ block main
                                 ) Sửa
                                 button(
                                     class="btn btn-danger btn-sm ml-1"
+                                    button-delete-account
                                     data-id=item.id) Xóa
                                 a(
                                     class="btn btn-info btn-sm ml-1"
                                     href=`${prefixAdmin}/accounts/detail/${item.id}`
                                 ) Chi tiết 
+    form(
+        form-delete-button-account
+        method='POST' 
+        action="" 
+        data-patch=prefixAdmin+`/accounts/delete`)
 

@@ -297,3 +297,27 @@ if (dataRecords){
 }
 
 // Data default phan quyen
+
+// Delete-account
+
+const listDeleteAccounts = document.querySelectorAll("[button-delete-account]");
+if (listDeleteAccounts.length > 0){
+    const formDeleteAccount = document.querySelector("[form-delete-button-account]");
+    listDeleteAccounts.forEach((button) => {
+        button.addEventListener("click", () => {
+            const isConfirm = confirm("Bạn có chắc muốn xóa tài khoản này?")
+            if (isConfirm){
+                const id = button.getAttribute("data-id");
+
+                const path = formDeleteAccount.getAttribute("data-patch");
+        
+                const action = path + `/${id}?_method=PATCH`;
+
+        
+                formDeleteAccount.action = action;
+
+                formDeleteAccount.submit();
+            }
+        })
+    })
+}
