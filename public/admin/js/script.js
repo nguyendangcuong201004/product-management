@@ -278,7 +278,7 @@ if (buttonSubmitPermissions) {
 // button-submit-permissions cho phan quyen
 
 
-// Data default
+// Data default phan quyen
 
 const dataRecords = document.querySelector("[data-records]");
 if (dataRecords){
@@ -296,4 +296,4 @@ if (dataRecords){
     })
 }
 
-// Data default
+// Data default phan quyen
