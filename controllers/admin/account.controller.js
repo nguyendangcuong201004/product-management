@@ -56,6 +56,8 @@ module.exports.createPost = async (req, res) => {
         res.send("Không có quyền truy cập !");
         return; 
      }
+
+    req.body.createdBy = res.locals.user.id;
     
     req.body.password = md5(`${req.body.password}`);
 
@@ -116,6 +118,8 @@ module.exports.editPatch = async (req, res) => {
             delete req.body.password
         }
         const id = req.params.id;
+
+        req.body.updatedBy = res.locals.user.id;
         
         await Account.updateOne({
             _id: id,
@@ -144,7 +148,9 @@ module.exports.delete = async (req, res) => {
         await Account.updateOne({
             _id: id
         }, {
-            deleted: true
+            deleted: true,
+            deletedBy: res.locals.user.id,
+            deletedAt: new Date()
         })
         req.flash("success", "Tài khoản được xóa thành công !");
         res.redirect("back")

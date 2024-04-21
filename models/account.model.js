@@ -13,7 +13,10 @@ const accountSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    createdBy: String,
+    deletedBy: String,
     deletedAt: Date,
+    updatedBy: String
 }, {
     timestamps: true
 })

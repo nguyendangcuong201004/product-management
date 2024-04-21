@@ -91,6 +91,7 @@ block main
                             th Giá 
                             th Vị trí
                             th Trạng thái 
+                            th Tạo bởi
                             th Hành động
                     tbody 
                         each item, index in products
@@ -122,6 +123,9 @@ block main
                                         button-change-status=""
                                         data-id=item.id
                                         data-status="active") Dừng hoạt động
+                                td  
+                                    div #{item.createdByFullName}
+                                    div #{moment(item.createdAt).format('DD/MM/YYYY')}
                                 td
                                     if(role.permissions.includes("products_edit"))
                                         a(

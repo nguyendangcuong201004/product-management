@@ -52,6 +52,7 @@ module.exports.createPost = async (req, res) => {
         const countRecords = await ProductCategory.countDocuments({});
         req.body.position = countRecords + 1;
     }
+    req.body.createdBy = res.locals.user.id;
     const record = new ProductCategory(req.body);
     await record.save();
 
@@ -110,6 +111,8 @@ module.exports.editPatch = async (req, res) => {
     const id = req.params.id;
 
     req.body.postion = parseInt(req.body.postion)
+
+    req.body.updatedBy = res.locals.user.id;
 
     try {
         await ProductCategory.updateOne({

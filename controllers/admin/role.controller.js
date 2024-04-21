@@ -36,6 +36,7 @@ module.exports.createPost = async (req, res) => {
         res.send("Không có quyền truy cập !");
         return; 
      }
+    req.body.createdBy = res.locals.user.id;
     const record = new Role(req.body);
     await record.save();
 
@@ -76,6 +77,8 @@ module.exports.editPatch = async (req, res) => {
      }
     const id = req.params.id;
 
+    req.body.updatedBy = res.locals.user.id;
+
     try {
         await Role.updateOne({
             _id: id
@@ -115,6 +118,8 @@ module.exports.permissionsPatch = async (req, res) => {
         res.send("Không có quyền truy cập !");
         return; 
      }
+
+     req.body.permissionsedBy = res.locals.user.id;
 
     const roles = JSON.parse(req.body.roles);
 

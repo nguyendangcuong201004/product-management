@@ -11,7 +11,11 @@ const rolesSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    deleteAt: Date,
+    createdBy: String,
+    deletedBy: String,
+    deletedAt: Date,
+    updatedBy: String,
+    permissionsedBy: String
 }, {
     timestamps: true
 })

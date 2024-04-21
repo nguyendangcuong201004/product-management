@@ -21,7 +21,11 @@ const productSchema = new mongoose.Schema({
         type: String, 
         slug: "title",
         unique: true
-    }
+    },
+    createdBy: String,
+    deletedBy: String,
+    deletedAt: Date,
+    updatedBy: String
 }, {
     timestamps: true
 })

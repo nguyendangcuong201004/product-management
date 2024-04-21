@@ -24,6 +24,9 @@ const productCagetorySchema = new mongoose.Schema(
             default: false,
         },
         deleteAt: Date,
+        createdBy: String,
+        deletedBy: String,
+        updatedBy: String
     },{
         timestamps: true
     }

@@ -4,6 +4,7 @@ const paginationHelper = require("../../helpers/pagination.helper.js");
 const prefixAdmin = require("../../config/system.js");
 const ProductCategory = require("../../models/product-category.model.js");
 const createTreeHelper = require("../../helpers/createTree.helper.js");
+const Account = require("../../models/account.model.js");
 
 // [GET] /admin/products
 
@@ -54,6 +55,19 @@ module.exports.index = async (req, res) => {
         .skip(objectPagination.skip)
         .sort(sort);
     // console.log(products)
+    for (const product of products) {
+        const createdBy = await Account.findOne({
+            _id: product.createdBy
+        })
+
+        if (!createdBy){
+            product.createdByFullName = res.locals.role.title
+        }
+
+        else {
+            product.createdByFullName = createdBy.fullName;
+        }
+    }
     res.render("admin/pages/products/index.pug", {
         pageTitle: "Trang danh sách sản phẩm",
         products: products,
@@ -112,7 +126,9 @@ module.exports.changeMulti = async (req, res) => {
             await Product.updateMany({
                 _id: { $in: ids }
             }, {
-                deleted: true
+                deleted: true,
+                deletedBy: res.locals.user.id,
+                deletedAt: new Date(),
             })
             req.flash('success', 'Xóa sản phẩm thành công!');
             break;
@@ -145,7 +161,9 @@ module.exports.deleteProducts = async (req, res) => {
     await Product.updateOne({
         _id: id
     }, {
-        deleted: true   
+        deleted: true,
+        deletedBy: res.locals.user.id,
+        deletedAt: new Date(),
     });
     req.flash('success', 'Xóa sản phẩm thành công!');
     res.redirect("back")
@@ -194,7 +212,7 @@ module.exports.createPost = async (req, res) => {
     //     req.body.thumbnail = `/uploads/${req.file.filename}`;
     // }
 
-    console.log(req.body);
+    req.body.createdBy = res.locals.user.id;
 
     const record = new Product(req.body);
     await record.save();
@@ -244,6 +262,7 @@ module.exports.editPatch = async (req, res) => {
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);  
     req.body.position = parseInt(req.body.position);  
+    req.body.updatedBy = res.locals.user.id;  
     // if (req.file){
     //     req.body.thumbnail = `/uploads/${req.file.filename}`;
     // }
