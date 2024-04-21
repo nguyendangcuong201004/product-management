@@ -5,17 +5,18 @@ const productCategoryRoutes = require("./product-category.router.js");
 const roleRoutes = require("./role.route.js");
 const accountRoutes = require("./account.route.js");
 const authRoutes = require("./auth.route.js");
+const authMiddleware = require("../../middlewares/admin/auth.middleware.js")
 
 module.exports = (app) => {
-    app.use(systemConfig + "/dashboard", dashboardRoutes);
+    app.use(systemConfig + "/dashboard", authMiddleware.requireAuth , dashboardRoutes);
 
-    app.use(systemConfig + "/products", productRoutes);
+    app.use(systemConfig + "/products", authMiddleware.requireAuth, productRoutes);
 
-    app.use(systemConfig + "/products-category", productCategoryRoutes)
+    app.use(systemConfig + "/products-category", authMiddleware.requireAuth, productCategoryRoutes)
 
-    app.use(systemConfig + "/roles", roleRoutes)
+    app.use(systemConfig + "/roles", authMiddleware.requireAuth, roleRoutes)
 
-    app.use(systemConfig + "/accounts", accountRoutes)
+    app.use(systemConfig + "/accounts", authMiddleware.requireAuth, accountRoutes)
 
     app.use(systemConfig + "/auth", authRoutes)
 }
