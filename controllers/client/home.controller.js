@@ -1,7 +1,10 @@
-// [GET] /
+const ProductCategory = require("../../models/product-category.model.js");
+const createTreeHelper = require("../../helpers/createTree.helper.js");
 
-module.exports.index = (req, res) => {
+// [GET] /
+module.exports.index =  (req, res) => {
+
     res.render("client/pages/home/index.pug", {
-        pageTitle: "Trang Chu NDC"
+        pageTitle: "Trang chủ",
     });
 }
