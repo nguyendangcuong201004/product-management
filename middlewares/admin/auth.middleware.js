@@ -1,5 +1,6 @@
 const prefixAdmin = require("../../config/system.js");
 const Account = require("../../models/account.model.js");
+const Role = require("../../models/role.model.js");
 
 module.exports.requireAuth = async (req, res, next) => {
     if (!req.cookies.token){
@@ -16,5 +17,16 @@ module.exports.requireAuth = async (req, res, next) => {
         res.redirect(`${prefixAdmin}/auth/login`);
         return;
     }
+
+    res.locals.user = user;
+
+    const role = await Role.findOne({
+        _id: user.role_id,
+        deleted: false,
+    })
+
+
+    res.locals.role = role;
+
     next();
 }

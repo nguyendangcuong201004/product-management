@@ -137,6 +137,10 @@ module.exports.changeMulti = async (req, res) => {
 
 // [DELETE] /admin/products/:status/:id
 module.exports.deleteProducts = async (req, res) => {
+    if(!res.locals.role.permissions.includes("products_view")){
+       res.send("Không có quyền truy cập !");
+       return; 
+    }
     const id = req.params.id;
     await Product.updateOne({
         _id: id
@@ -149,6 +153,11 @@ module.exports.deleteProducts = async (req, res) => {
 
 //[GET] /admin/products/create
 module.exports.create = async (req, res) => {
+
+    if(!res.locals.role.permissions.includes("products_create")){
+        res.send("Không có quyền truy cập !");
+        return; 
+     }
 
     const category = await ProductCategory.find({
         deleted: false
@@ -164,6 +173,12 @@ module.exports.create = async (req, res) => {
 
 //[POST] /admin/products/create
 module.exports.createPost = async (req, res) => {
+
+    if(!res.locals.role.permissions.includes("products_create")){
+        res.send("Không có quyền truy cập !");
+        return; 
+     }
+
     req.body.price = parseInt(req.body.price);
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);  
@@ -192,6 +207,11 @@ module.exports.createPost = async (req, res) => {
 // [GET] /admin/products/edit/:id
 module.exports.edit = async (req, res) => {
 
+    if(!res.locals.role.permissions.includes("products_edit")){
+        res.send("Không có quyền truy cập !");
+        return; 
+     }
+
     const category = await ProductCategory.find({
         deleted: false
     });
@@ -214,6 +234,11 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] /admin/product/edit/:id
 module.exports.editPatch = async (req, res) => {
+    
+    if(!res.locals.role.permissions.includes("products_edit")){
+        res.send("Không có quyền truy cập !");
+        return; 
+     }
     const id = req.params.id;
     req.body.price = parseInt(req.body.price);
     req.body.discountPercentage = parseInt(req.body.discountPercentage);

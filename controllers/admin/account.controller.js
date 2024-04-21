@@ -30,6 +30,10 @@ module.exports.index = async (req, res) => {
 
 // [GET] /accounts/create
 module.exports.create = async (req, res) => {
+    if(!res.locals.role.permissions.includes("accounts_create")){
+        res.send("Không có quyền truy cập !");
+        return; 
+     }
     let find = {
         deleted: false,
     }
@@ -47,6 +51,11 @@ module.exports.create = async (req, res) => {
 
 // [POST] /accounts/create
 module.exports.createPost = async (req, res) => {
+
+    if(!res.locals.role.permissions.includes("accounts_create")){
+        res.send("Không có quyền truy cập !");
+        return; 
+     }
     
     req.body.password = md5(`${req.body.password}`);
 
@@ -61,6 +70,11 @@ module.exports.createPost = async (req, res) => {
 
 // [GET] /admin/accounts/edit/:id
 module.exports.edit = async (req, res) => {
+
+    if(!res.locals.role.permissions.includes("accounts_edit")){
+        res.send("Không có quyền truy cập !");
+        return; 
+     }
 
     const id = req.params.id;
 
@@ -89,6 +103,11 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] /admin/accounts/edit/:id
 module.exports.editPatch = async (req, res) => {   
+    if(!res.locals.role.permissions.includes("accounts_edit")){
+        res.send("Không có quyền truy cập !");
+        return; 
+     }
+
     try {
         if (req.body.password){
             req.body.password = md5(req.body.password);
@@ -115,6 +134,11 @@ module.exports.editPatch = async (req, res) => {
 
 // [PATCH] /admin/accounts/edit/:id // delete
 module.exports.delete = async (req, res) => {   
+    if(!res.locals.role.permissions.includes("accounts_delete")){
+        res.send("Không có quyền truy cập !");
+        return; 
+     }
+
     try {
         const id = req.params.id;
         await Account.updateOne({

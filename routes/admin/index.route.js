@@ -18,5 +18,5 @@ module.exports = (app) => {
 
     app.use(systemConfig + "/accounts", authMiddleware.requireAuth, accountRoutes)
 
-    app.use(systemConfig + "/auth", authRoutes)
+    app.use(systemConfig + "/auth"  , authRoutes)
 }

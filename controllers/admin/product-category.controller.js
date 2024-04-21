@@ -18,6 +18,11 @@ module.exports.index = async (req, res) => {
 
 // [GET] /admin/products-category/create
 module.exports.create = async (req, res) => {
+    
+    if(!res.locals.role.permissions.includes("products-category_create")){
+        res.send("Không có quyền truy cập !");
+        return; 
+     }
 
     const records = await ProductCategory.find({
         deleted: false
@@ -34,6 +39,11 @@ module.exports.create = async (req, res) => {
 
 // [POST] /admin/products-category/create
 module.exports.createPost = async (req, res) => {
+
+    if(!res.locals.role.permissions.includes("products-category_create")){
+        res.send("Không có quyền truy cập !");
+        return; 
+     }
 
     if(req.body.position){
         req.body.position = parseInt(req.body.position);  
@@ -53,6 +63,14 @@ module.exports.createPost = async (req, res) => {
 
 // [GET] /admin/products-category/edit/:id
 module.exports.edit = async (req, res) => {
+
+    
+    if(!res.locals.role.permissions.includes("products-category_edit")){
+        res.send("Không có quyền truy cập !");
+        return; 
+     }
+
+
     let find = {
         _id: req.params.id,
         deleted: false
@@ -83,6 +101,12 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] /admin/products-category/edit/:id
 module.exports.editPatch = async (req, res) => {
+
+    if(!res.locals.role.permissions.includes("products-category_edit")){
+        res.send("Không có quyền truy cập !");
+        return; 
+     }
+
     const id = req.params.id;
 
     req.body.postion = parseInt(req.body.postion)

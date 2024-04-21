@@ -19,6 +19,12 @@ module.exports.index = async (req, res) => {
 // [GET] /roles/create
 module.exports.create = (req, res) => {
 
+    if(!res.locals.role.permissions.includes("roles_create")){
+        res.send("Không có quyền truy cập !");
+        return; 
+     }
+
+
     res.render("admin/pages/roles/create.pug", {
         pageTitle: "Thêm mới nhóm quyền",
     })
@@ -26,6 +32,10 @@ module.exports.create = (req, res) => {
 
 // [POST] /roles/create
 module.exports.createPost = async (req, res) => {
+    if(!res.locals.role.permissions.includes("roles_create")){
+        res.send("Không có quyền truy cập !");
+        return; 
+     }
     const record = new Role(req.body);
     await record.save();
 
@@ -36,6 +46,10 @@ module.exports.createPost = async (req, res) => {
 
 // [GET] /roles/edit/:id
 module.exports.edit = async (req, res) => {
+    if(!res.locals.role.permissions.includes("roles_edit")){
+        res.send("Không có quyền truy cập !");
+        return; 
+     }
     let find = {
         _id: req.params.id,
         deleted: false,
@@ -56,6 +70,10 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] /roles/edit/:id
 module.exports.editPatch = async (req, res) => {
+    if(!res.locals.role.permissions.includes("roles_edit")){
+        res.send("Không có quyền truy cập !");
+        return; 
+     }
     const id = req.params.id;
 
     try {
@@ -72,6 +90,11 @@ module.exports.editPatch = async (req, res) => {
 
 // [GET] /roles/edit/:id
 module.exports.permissions = async (req, res) => {
+    
+    if(!res.locals.role.permissions.includes("roles_permissions")){
+        res.send("Không có quyền truy cập !");
+        return; 
+     }
 
     let find = {
         deleted: false
@@ -87,6 +110,11 @@ module.exports.permissions = async (req, res) => {
 
 // [PATCH] /roles/edit/:id
 module.exports.permissionsPatch = async (req, res) => {
+
+    if(!res.locals.role.permissions.includes("roles_permissions")){
+        res.send("Không có quyền truy cập !");
+        return; 
+     }
 
     const roles = JSON.parse(req.body.roles);
 
