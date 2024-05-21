@@ -11,18 +11,14 @@ module.exports.index =  async (req, res) => {
         featured: "1",
     }).limit(10).select("-description");
 
-    for (const product of productFeatured) {
-        product.priceNew = Math.round(product.price - product.price * product.discountPercentage / 100);
-    }
-
-    const productNew = await Product.find({
+    const productNew = await Product
+    .find({
         deleted: false,
-        status: "active",
-    }).limit(9).select("-description").sort({ positon: "desc" });
+        status: "active"
+    })
+    .sort( {position: "desc"} )
+    .limit(9);
 
-    for (const product of productNew) {
-        product.priceNew = Math.round(product.price - product.price * product.discountPercentage / 100);
-    }
 
     res.render("client/pages/home/index.pug", {
         pageTitle: "Trang chủ",
