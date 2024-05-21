@@ -267,6 +267,9 @@ module.exports.editPatch = async (req, res) => {
     //     req.body.thumbnail = `/uploads/${req.file.filename}`;
     // }
 
+
+    // console.log(req.body);
+
     await Product.updateOne({
         _id: id,
         deleted: false
