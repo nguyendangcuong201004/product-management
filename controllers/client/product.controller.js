@@ -31,6 +31,14 @@ module.exports.detail = async (req, res) => {
         status: "active"
     })
 
+    const category = await ProductCategory.findOne({
+        deleted: false,
+        _id: product.product_category_id
+    })
+
+    product.category = category;
+
+
     if (product){
         res.render("client/pages/products/detail", {
             pageTitle: product.title,
