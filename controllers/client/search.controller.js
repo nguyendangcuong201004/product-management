@@ -5,6 +5,11 @@ const Product = require("../../models/product.model.js");
 module.exports.index = async (req, res) => {
     const keyword = req.query.keyword;
 
+    if (!keyword){
+        res.redirect("back");
+        return;
+    }
+
     const regexKeyword = new RegExp(keyword, "i");
 
 
