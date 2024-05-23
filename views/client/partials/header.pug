@@ -36,4 +36,4 @@ header.header
               a(href="/products") Sản phẩm
               +sub-menu(layoutProductCatetory)
             li 
-              a(href="/cart") <i class="fa-solid fa-cart-shopping"></i> (0)
+              a(href="/cart") <i class="fa-solid fa-cart-shopping"></i> (#{miniCart ? miniCart.products.length : 0})
