@@ -237,3 +237,7 @@
   font-size: 18px;
   font-weight: 600;
 }
+
+.container .row .col-8 a {
+  text-decoration: none;
+}

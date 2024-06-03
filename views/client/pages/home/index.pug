@@ -1,8 +1,11 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 include ../../mixins/draw.pug
+include ../../mixins/alert.pug
 
 block main
+    +alert-success()
+    +alert-error()
     .container.mt-5 
         .row 
             .col-xl-12 
