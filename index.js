@@ -46,6 +46,13 @@ routeClient(app);
 routeAdmin(app);
 
 
+app.get("*", (req, res) => {
+    res.render("client/pages/errors/404.pug", {
+        pageTitle: "404 Not Found"  
+    })
+})
+
+
 
 app.listen(port, () => {
     console.log(`Chay tren cong ${port}`);
