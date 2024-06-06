@@ -7,8 +7,12 @@ const accountRoutes = require("./account.route.js");
 const authRoutes = require("./auth.route.js");
 const authMiddleware = require("../../middlewares/admin/auth.middleware.js")
 const myAccountRoutes = require("./my-account.route.js");
+const settingRoutes = require("./setting.route.js");
+
 
 module.exports = (app) => {
+
+
     app.use(systemConfig + "/dashboard", authMiddleware.requireAuth , dashboardRoutes);
 
     app.use(systemConfig + "/products", authMiddleware.requireAuth, productRoutes);
@@ -21,5 +25,7 @@ module.exports = (app) => {
 
     app.use(systemConfig + "/auth"  , authRoutes)
 
-    app.use(systemConfig + "/my-account"  , myAccountRoutes)
+    app.use(systemConfig + "/my-account" ,authMiddleware.requireAuth , myAccountRoutes)
+
+    app.use(systemConfig + "/settings",authMiddleware.requireAuth, settingRoutes)
 }
