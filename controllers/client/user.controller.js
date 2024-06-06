@@ -4,6 +4,7 @@ const generateHelper = require("../../helpers/generate.helper.js");
 const ForgotPassword = require("../../models/forgotPassword.model.js");
 const sendMailHelper = require("../../helpers/sendmail.helper.js");
 const Cart = require("../../models/cart.model.js");
+const { use } = require("../../routes/client/user.route.js");
 
 // [GET] /user/register
 module.exports.register = async (req, res) => {
@@ -42,6 +43,7 @@ module.exports.registerPost = async (req, res) => {
 
 // [GET] /user/login
 module.exports.login = async (req, res) => {
+
     res.render("client/pages/user/login", {
         pageTitle: "Đăng nhập"
     })
@@ -52,10 +54,9 @@ module.exports.loginPost = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
-
     const user = await User.findOne({
         email: email,
-        delete: false,
+        deleted: false
     })
 
     if (!user) {
