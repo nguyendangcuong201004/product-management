@@ -2,6 +2,7 @@
 .header {
     border-bottom: 1px solid #ddd;
     padding: 10px 0;
+    position: relative;
   }
   .header .inner-logo img {
     max-height: 50px;
@@ -291,6 +292,8 @@
 
 .chat .inner-body {
   padding: 10px;
+  max-height: 450px;
+  overflow-y: auto;
 }
 
 .chat .inner-body .inner-name {
@@ -341,3 +344,20 @@
   cursor: pointer;
 }
 /* End chat */
+
+/* Button-chat */
+
+.header a.chat-realtime {
+  position: fixed;
+  background-color: red;
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+  padding: 10px;
+  border-radius: 20px;
+  top: 85%;
+  text-decoration: none;
+  right: 20px;
+}
+
+/* Button-chat */

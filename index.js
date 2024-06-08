@@ -23,10 +23,7 @@ const app = express();
 
 const server = http.createServer(app);
 const io = new Server(server);
-
-io.on('connection', (socket) => {
-    console.log("Có một user đang kết nối đến server")
-})
+global._io = io;
 
 // Flash
 app.use(cookieParser('NDCNDTN'));
