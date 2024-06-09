@@ -1,7 +1,9 @@
+import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js'
+
 // Show alert
 
 const showAlert = document.querySelector("[show-alert]");
-if (showAlert){
+if (showAlert) {
     const time = showAlert.getAttribute("data-time");
     setTimeout(() => {
         showAlert.classList.add("alert-hidden")
@@ -10,7 +12,7 @@ if (showAlert){
 
 // Close alert
 const closeAlert = document.querySelector("[close-alert]");
-if (closeAlert){
+if (closeAlert) {
     closeAlert.addEventListener("click", () => {
         showAlert.classList.add("alert-hidden")
     })
@@ -20,20 +22,20 @@ if (closeAlert){
 // Thay đổi số lượng sản phâm trong trang giỏ hàng - Bang gio hang
 
 const tableCart = document.querySelector("[table-cart]");
-if (tableCart){
+if (tableCart) {
     const inputQuantity = document.querySelectorAll("input[item-id]");
 
-    if (inputQuantity.length > 0){
+    if (inputQuantity.length > 0) {
         inputQuantity.forEach((input) => {
             input.addEventListener("change", () => {
                 const quantity = input.value;
                 const productId = input.getAttribute("item-id");
-                
+
                 window.location.href = `/cart/update/${productId}/${quantity}`
             })
         })
     }
-}   
+}
 
 // Thay đổi số lượng sản phâm trong trang giỏ hàng
 
@@ -41,11 +43,11 @@ if (tableCart){
 // Chat
 
 const formChat = document.querySelector(".chat .inner-foot .inner-form");
-if (formChat){
+if (formChat) {
     formChat.addEventListener("submit", (e) => {
         e.preventDefault();
         const content = formChat.content.value;
-        if (content){
+        if (content) {
             socket.emit("CLIENT_SEND_MESSAGE", content)
             formChat.content.value = ""
         }
@@ -60,7 +62,7 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
     const myId = document.querySelector("[my-id]").getAttribute("my-id");
     const body = document.querySelector(".inner-body");
     const div = document.createElement("div");
-    if (myId == data.user_id){
+    if (myId == data.user_id) {
         div.classList.add("inner-outgoing")
         div.innerHTML = `
         <div class="inner-content">${data.content}</div>
@@ -73,7 +75,7 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
         <div class="inner-content">${data.content}</div>
     `;
     }
-    
+
     body.appendChild(div);
 })
 
@@ -82,8 +84,32 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
 // scroll
 
 const chatBody = document.querySelector(".inner-body");
-if (chatBody){
+if (chatBody) {
     chatBody.scrollTop = chatBody.scrollHeight;
 }
 
 // scroll
+
+
+// emoij - picker
+
+const emojiPicker = document.querySelector("emoji-picker");
+if (emojiPicker) {
+    emojiPicker.addEventListener("emoji-click", (event) => {
+        const input = document.querySelector('input[name="content"]');
+        input.value = input.value + event.detail.unicode
+    })
+}
+
+const buttonIcon = document.querySelector(".button-icon");
+if (buttonIcon) {
+    const tooltip = document.querySelector('.tooltip');
+    if (tooltip) {
+        Popper.createPopper(buttonIcon, tooltip)
+        buttonIcon.addEventListener("click", () => {
+            tooltip.classList.toggle("shown")
+        })
+    }
+}
+
+// emoij - picker
