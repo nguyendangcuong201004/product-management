@@ -1,5 +1,6 @@
 import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js'
 
+
 // Show alert
 
 const showAlert = document.querySelector("[show-alert]");
@@ -40,76 +41,83 @@ if (tableCart) {
 // Thay đổi số lượng sản phâm trong trang giỏ hàng
 
 
-// Chat
+// CLIENT SEND MESSAGE
 
-const formChat = document.querySelector(".chat .inner-foot .inner-form");
-if (formChat) {
-    formChat.addEventListener("submit", (e) => {
+const formSendData = document.querySelector(".chat .inner-form");
+
+if (formSendData){
+    formSendData.addEventListener("submit", (e) => {
         e.preventDefault();
-        const content = formChat.content.value;
-        if (content) {
-            socket.emit("CLIENT_SEND_MESSAGE", content)
-            formChat.content.value = ""
+        const content = formSendData.content.value;
+
+        if (content){
+            socket.emit("CLIENT_SEND_MESSAGE", content);
+            formSendData.content.value = ""
         }
     })
 }
+// CLIENT SEND MESSAGE
 
-// Chat
-
-//SERVER_RETURN_MESSAGE
+// SERVER_RETURN_MESSAGE
 
 socket.on("SERVER_RETURN_MESSAGE", (data) => {
+    const body = document.querySelector(".chat .inner-body");
     const myId = document.querySelector("[my-id]").getAttribute("my-id");
-    const body = document.querySelector(".inner-body");
+    console.log(myId);
+    console.log(data)
+
     const div = document.createElement("div");
-    if (myId == data.user_id) {
-        div.classList.add("inner-outgoing")
-        div.innerHTML = `
-        <div class="inner-content">${data.content}</div>
-    `;
+
+    let htmlFullName = '';
+    
+    if(myId == data.user_id) {
+        div.classList.add("inner-outgoing");
     }
     else {
-        div.classList.add("inner-incoming")
-        div.innerHTML = `
-        <div class="inner-name">${data.fullName}</div>
+        div.classList.add("inner-incoming");
+        htmlFullName = `<div class="inner-name">${data.userFullName}</div>`;
+    }
+
+    div.innerHTML = `
+        ${htmlFullName}
         <div class="inner-content">${data.content}</div>
     `;
-    }
 
     body.appendChild(div);
 })
 
-//SERVER_RETURN_MESSAGE
+// SERVER_RETURN_MESSAGE
 
-// scroll
 
-const chatBody = document.querySelector(".inner-body");
-if (chatBody) {
+// Scroll chat to bottom
+
+const chatBody = document.querySelector(".chat .inner-body");
+if (chatBody){
     chatBody.scrollTop = chatBody.scrollHeight;
 }
 
-// scroll
+// Scroll chat to bottom
 
-
-// emoij - picker
-
-const emojiPicker = document.querySelector("emoji-picker");
-if (emojiPicker) {
-    emojiPicker.addEventListener("emoji-click", (event) => {
-        const input = document.querySelector('input[name="content"]');
-        input.value = input.value + event.detail.unicode
-    })
-}
-
-const buttonIcon = document.querySelector(".button-icon");
-if (buttonIcon) {
+// Show tooltip emoji
+const buttonIcon = document.querySelector(".chat .inner-form .button-icon");
+if (buttonIcon){
     const tooltip = document.querySelector('.tooltip');
-    if (tooltip) {
-        Popper.createPopper(buttonIcon, tooltip)
-        buttonIcon.addEventListener("click", () => {
-            tooltip.classList.toggle("shown")
-        })
-    }
+    Popper.createPopper(buttonIcon, tooltip);
+    buttonIcon.onclick = () => {
+        tooltip.classList.toggle('shown')
+      }
 }
+// Show tooltip emoji
 
-// emoij - picker
+
+// Emoji Picker
+const emojiPicker = document.querySelector('emoji-picker');
+
+if (emojiPicker){
+    emojiPicker.addEventListener('emoji-click', event => {
+        const icon = event.detail.unicode;
+        const inputChat = document.querySelector(".chat .inner-form input[name='content']");
+        inputChat.value = inputChat.value + icon;
+    });
+}
+// Emoji Picker

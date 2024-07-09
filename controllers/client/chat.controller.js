@@ -5,42 +5,54 @@ const User = require("../../models/user.model.js");
 module.exports.index = async (req, res) => {
     const userId = res.locals.user.id;
     const userFullName = res.locals.user.fullName;
-
+    console.log(userFullName)
+    
     _io.once('connection', (socket) => {
-        console.log("Có một user đang kết nối đến server")
+        console.log('Có 1 user đang kết nối')
+        // CLIENT_SEND_MESSAGE
 
-        socket.on("CLIENT_SEND_MESSAGE", async (data) => {
+        socket.on("CLIENT_SEND_MESSAGE", async (content) => {
+            console.log(userId);
+            console.log(content);
             const chat = new Chat({
                 user_id: userId,
-                content: data,
-            });
+                // room_chat_id: String,
+                content: content,
+                // images: Array,
+            })
+            // Luu vào database 
+            await chat.save();
 
-            
-            await chat.save()
-
-
+            // Trả data realtime về client
             _io.emit("SERVER_RETURN_MESSAGE", {
                 user_id: userId,
-                content: data,
-                fullName: userFullName
+                content: content,
+                userFullName: userFullName
             })
         })
 
+        // CLIENT_SEND_MESSAGE
     })
+
+    // Lay data trong database
 
     const chats = await Chat.find({
-        deleted: false,
-    })
+        deleted: false
+    });
 
-    for (const chat of chats){
-        const user = await User.findOne({
-            _id: chat.user_id,
+    for (const key of chats) {
+        const infoUser = await User.findOne({
+            _id: key.user_id,
+            deleted: false,
         })
-        chat.fullName = user.fullName
+        key.fullName = infoUser.fullName
     }
+
+    // Lay data trong database
+
 
     res.render("client/pages/chat/index.pug", {
         pageTitle: "Chat",
-        chats: chats
+        chats: chats,
     });
 }
