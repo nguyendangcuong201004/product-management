@@ -273,7 +273,7 @@
 }
 
 .chat .inner-head .inner-avatar {
-  background: #0084FF;
+  background: #0069D9;
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -311,7 +311,7 @@
 
 .chat .inner-outgoing .inner-content {
   margin-left: auto;
-  background: #0084FF;
+  background: #0069D9;
   color: #fff;
 }
 
@@ -336,8 +336,8 @@
 
 .chat .inner-form button {
   border-radius: 15px;
-  border: 1px solid #0084FF;
-  background: #0084FF;
+  border: 1px solid #0069D9;
+  background: #0069D9;
   color: #fff;
   height: 32px;
   padding: 0 10px;
