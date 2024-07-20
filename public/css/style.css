@@ -343,6 +343,66 @@
   padding: 0 10px;
   cursor: pointer;
 }
+
+.chat .inner-body .inner-images img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  background-color: #fff;
+  /* padding: 10px;
+  margin: 0 5px 5px 0; */
+  border-radius: 5px;
+}
+
+.chat .inner-body .inner-outgoing .inner-images {
+  margin-left: auto;
+  text-align: right;
+}
+
+.chat .inner-body .inner-outgoing .inner-images img {
+  margin: 0 0 5px 5px;
+}
+
+.chat .inner-body .inner-incoming .inner-images img {
+  margin: 0 5px 5px 0;
+}
+
+.chat .inner-foot span i {
+  font-size: 30px;
+  border-radius: 15px;
+  border: 1px solid #242526;
+  color: #242526;
+  cursor: pointer;
+}
+
+.chat .inner-foot label i{
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.chat .inner-preview-images {
+  position: relative;
+}
+
+.chat .inner-preview-images .label-container{
+  display: none;
+}
+
+.chat .inner-preview-images .input-container{
+  display: none;
+}
+
+.chat .inner-preview-images .image-preview{
+  height: auto;
+  padding: 0;
+  border-radius: 0;
+}
+
+.chat .inner-preview-images .image-preview-item{
+  width: 90px;
+  background-size: contain;
+}
+
 /* End chat */
 
 /* Button-chat */
@@ -424,10 +484,3 @@
  }
 }
 
-.chat .inner-foot span i {
-  font-size: 30px;
-  border-radius: 15px;
-  border: 1px solid #0084FF;
-  color: #0084FF;
-  cursor: pointer;
-}

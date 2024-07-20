@@ -13,6 +13,8 @@ module.exports.index = async (req, res) => {
         console.log('Có 1 user đang kết nối')
         // CLIENT_SEND_MESSAGE
         socket.on("CLIENT_SEND_MESSAGE", async (data) => {
+            console.log(userFullName)
+            console.log(data);
             const images = [];
             if (data.images.length > 0){
                 for (const image of data.images) {

@@ -56,8 +56,6 @@ if (formSendData){
         const content = formSendData.content.value || "";
         const images = upload.cachedFileArray || [];
 
-        console.log(upload.cachedFileArray);
-
         if (content || images){
             socket.emit("CLIENT_SEND_MESSAGE", {
                 content: content,
@@ -82,6 +80,20 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
     const div = document.createElement("div");
 
     let htmlFullName = '';
+    let htmlImages = '';
+    let htmlContent = '';
+
+    if (data.content){
+        htmlContent = `<div class="inner-content">${data.content}</div>`
+    }
+
+    if (data.images.length > 0){
+        htmlImages = `<div class="inner-images">`;
+        data.images.forEach((item) => {
+            htmlImages += `<img src="${item}">`
+        })
+        htmlImages += `</div>`
+    }
     
     if(myId == data.user_id) {
         div.classList.add("inner-outgoing");
@@ -93,7 +105,8 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
 
     div.innerHTML = `
         ${htmlFullName}
-        <div class="inner-content">${data.content}</div>
+        ${htmlContent}
+        ${htmlImages}
     `;
     const elementListTyping = document.querySelector(".inner-list-typing");
     body.insertBefore(div, elementListTyping);
