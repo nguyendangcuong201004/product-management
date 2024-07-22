@@ -38,7 +38,6 @@ module.exports = async (req, res) => {
         // Gửi yêu câù kết bạn
 
         // Thu hồi lời mời kết bạn
-
         socket.on("CLIENT_CANCEL_FRIEND", async (userIdRecieve) => {
             // Xóa id của người gửi trong accept friend của người nhận
             const exitRecieve = await User.find({
@@ -66,7 +65,26 @@ module.exports = async (req, res) => {
                 })
             }
         })
-
         // Thu hồi lời mời kết bạn
+
+        // Từ chối lời mời kết bạn
+        socket.on("CLIENT_REFUSE_FRIEND", async (data) => { // Bị ngược
+            const userIdRefuse = userIdSend;
+            const userIdMake = data;
+            
+            await User.updateOne({
+                _id: userIdRefuse
+            }, {
+                $pull: { acceptFriends: userIdMake }
+            })
+
+            await User.updateOne({
+                _id: userIdMake
+            }, {
+                $pull: { requestFriends: userIdRefuse }
+            })
+
+        })
+        // Từ chối lời mời kết bạn
     })
 }

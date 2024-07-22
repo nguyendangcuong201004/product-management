@@ -1,0 +1,34 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug 
+
+block main 
+
+    .container.my-3
+
+        include ../../partials/list-btn-user.pug
+
+        .row 
+            .col-12
+                +box-head("Lời mời đã gửi")
+
+        .row 
+            each user in users
+                .col-6 
+                    div(class="box-user")
+                        div(class="inner-avatar")
+                            img(src="https://scontent.fhan14-2.fna.fbcdn.net/v/t39.30808-1/425512045_1554889561965398_1358194250322906415_n.jpg?stp=dst-jpg_p200x200&_nc_cat=108&ccb=1-7&_nc_sid=0ecb9b&_nc_eui2=AeH6VlXRSyyITmaryV9n8SB42dt3HE7vGXvZ23ccTu8Ze--y9ieNnXqb2XTnBumyD-otFTD8Kj8XqnpUV2bxWOsF&_nc_ohc=BQGyi5iNr2oQ7kNvgFjMYoP&_nc_ht=scontent.fhan14-2.fna&oh=00_AYDXYtsX37vZ65NLF2czJZKLw8kuHv1yoSuDjGsB-byumQ&oe=66A3A6E5", alt="avatat")
+                        div(class="inner-info")
+                            div(class="inner-name") #{user.fullName}
+                            div(class="inner-buttons")
+                                button(
+                                    class="btn btn-sm btn-primary mr-1"
+                                    btn-accept-friend=user.id
+                                ) Chấp nhận
+                                button(
+                                    class="btn btn-sm btn-secondary mr-1"
+                                    btn-refuse-friend=user.id
+                                ) Xóa  
+                                button(
+                                    class="btn btn-sm btn-secondary mr-1"
+                                    btn-delete-friend=user.id
+                                ) Đã xóa
