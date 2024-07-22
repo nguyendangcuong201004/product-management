@@ -86,5 +86,33 @@ module.exports = async (req, res) => {
 
         })
         // Từ chối lời mời kết bạn
+
+        // Chấp nhận lời mời kết bạn
+        socket.on("CLIENT_ACCEPT_FRIEND", async (data) => {
+            const userIdAccept = userIdSend;
+            const userIdMake = data;
+            // Thêm vào các friend list tương ứng và xóa khỏi accept, request 
+            await User.updateOne({
+                _id: userIdAccept
+            }, {
+                $push: { friendsList: {
+                    user_id: userIdMake,
+                    room_chat_id: "",
+                } },
+                $pull: { acceptFriends: userIdMake }
+            })
+
+            await User.updateOne({
+                _id: userIdMake
+            }, {
+                $push: { friendsList: {
+                    user_id: userIdAccept,
+                    room_chat_id: "",
+                } },
+                $pull: { requestFriends: userIdAccept }
+            })
+
+        })
+        // Chấp nhận lời mời kết bạn
     })
 }
