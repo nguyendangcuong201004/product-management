@@ -34,6 +34,26 @@ module.exports = async (req, res) => {
                     $push: { requestFriends: data.userIdRecieve}
                 })
             }
+
+            // Lấy độ dài accept Friend của người nhận lời mời kết bạn
+            const infoUser = await User.findOne({
+                _id: data.userIdRecieve
+            })
+            const lengthAccpetFriends = infoUser.acceptFriends.length;
+            socket.broadcast.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIEND", {
+                lengthAccpetFriends: lengthAccpetFriends,
+                userId: data.userIdRecieve
+            });
+
+            const infoUserSend = await User.findOne({
+                _id: userIdSend,
+                status: "active",
+                deleted: false
+            }).select("fullName avatar")
+            socket.broadcast.emit("SERVER_RETURN_INFO_ACCEPT_FRIEND", {
+                userId: data.userIdRecieve,
+                infoUserSend: infoUserSend
+            })
         })
         // Gửi yêu câù kết bạn
 
@@ -64,6 +84,20 @@ module.exports = async (req, res) => {
                     $pull: { requestFriends: userIdRecieve }
                 })
             }
+            const infoUser = await User.findOne({
+                _id: userIdRecieve
+            })
+            const lengthAccpetFriends = infoUser.acceptFriends.length;
+            socket.broadcast.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIEND", {
+                lengthAccpetFriends: lengthAccpetFriends,
+                userId: userIdRecieve
+            });
+            // Lấy id của người thu hồi trả về cho người nhận lời mời trước đó 
+            socket.broadcast.emit("SERVER_RETURN_CANCEL_FRIEND", {
+                userIdSend: userIdSend,
+                userIdRecieve: userIdRecieve
+            });
+
         })
         // Thu hồi lời mời kết bạn
 
@@ -84,6 +118,14 @@ module.exports = async (req, res) => {
                 $pull: { requestFriends: userIdRefuse }
             })
 
+            const infoUser = await User.findOne({
+                _id: userIdRefuse
+            })
+            const lengthAccpetFriends = infoUser.acceptFriends.length;
+            socket.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIEND", {
+                lengthAccpetFriends: lengthAccpetFriends,
+                userId: userIdRefuse
+            });
         })
         // Từ chối lời mời kết bạn
 
@@ -112,6 +154,14 @@ module.exports = async (req, res) => {
                 $pull: { requestFriends: userIdAccept }
             })
 
+            const infoUser = await User.findOne({
+                _id: userIdAccept
+            })
+            const lengthAccpetFriends = infoUser.acceptFriends.length;
+            socket.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIEND", {
+                lengthAccpetFriends: lengthAccpetFriends,
+                userId: userIdAccept
+            });
         })
         // Chấp nhận lời mời kết bạn
     })
