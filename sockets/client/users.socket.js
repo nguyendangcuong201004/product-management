@@ -45,6 +45,7 @@ module.exports = async (req, res) => {
                 userId: data.userIdRecieve
             });
 
+            // Lấy thông tin của người gửi trả về cho người nhận 
             const infoUserSend = await User.findOne({
                 _id: userIdSend,
                 status: "active",
@@ -54,6 +55,7 @@ module.exports = async (req, res) => {
                 userId: data.userIdRecieve,
                 infoUserSend: infoUserSend
             })
+
         })
         // Gửi yêu câù kết bạn
 

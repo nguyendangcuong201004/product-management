@@ -71,20 +71,33 @@ socket.on("SERVER_RETURN_LENGTH_ACCEPT_FRIEND", (data) => {
 
 // SERVER_RETURN_INFO_ACCEPT_FRIEND
 socket.on("SERVER_RETURN_INFO_ACCEPT_FRIEND", (data) => {
+    // Lấy thông tin để render trong trang lời mời kết bạn
     const dataUsersAccept = document.querySelector(`[data-users-accept="${data.userId}"]`)
     if (dataUsersAccept){
-        const newBoxUser = document.createElement("div");
-        newBoxUser.classList.add("col-6");
-        newBoxUser.setAttribute("user-id", data.infoUserSend._id)
-        newBoxUser.innerHTML = `
-        <div class="box-user">
-        <div class="inner-avatar"><img src="https://cdn.discordapp.com/attachments/1261618265025679461/1266753883322187776/avatar.jpg?ex=66a64bfc&amp;is=66a4fa7c&amp;hm=bbb3c1bd81f250e43e2714b4134312ae46a9e0ffccb7d8111510108ccc1f5e74&amp;" alt="avatat"></div><div class="inner-info"><div class="inner-name">${data.infoUserSend.fullName}</div><div class="inner-buttons"><button class="btn btn-sm btn-primary mr-1" btn-accept-friend="${data.infoUserSend._id}">Chấp nhận</button><button class="btn btn-sm btn-secondary mr-1" btn-refuse-friend="${data.infoUserSend._id}">Xóa  </button><button class="btn btn-sm btn-secondary mr-1" btn-delete-friend="${data.infoUserSend._id}">Đã xóa</button><button class="btn btn-sm btn-primary mr-1" btn-accepted-friend="${data.infoUserSend._id}">Bạn bè</button></div></div></div>
-        `;
-        dataUsersAccept.appendChild(newBoxUser);
-        const btnRefuseFriend = newBoxUser.querySelector("[btn-refuse-friend]");
-        deleteUser(btnRefuseFriend)
-        const btnAccpetFriend = newBoxUser.querySelector("[btn-accept-friend]");
-        accpetUser(btnAccpetFriend)
+        const exitUser = dataUsersAccept.querySelector(`[user-id="${data.infoUserSend._id}"]`)
+        if (!exitUser){
+            const newBoxUser = document.createElement("div");
+            newBoxUser.classList.add("col-6");
+            newBoxUser.setAttribute("user-id", data.infoUserSend._id)
+            newBoxUser.innerHTML = `
+            <div class="box-user">
+            <div class="inner-avatar"><img src="https://i.imgur.com/ttyjQxs.jpeg" alt="avatat"></div><div class="inner-info"><div class="inner-name">${data.infoUserSend.fullName}</div><div class="inner-buttons"><button class="btn btn-sm btn-primary mr-1" btn-accept-friend="${data.infoUserSend._id}">Chấp nhận</button><button class="btn btn-sm btn-secondary mr-1" btn-refuse-friend="${data.infoUserSend._id}">Xóa  </button><button class="btn btn-sm btn-secondary mr-1" btn-delete-friend="${data.infoUserSend._id}">Đã xóa</button><button class="btn btn-sm btn-primary mr-1" btn-accepted-friend="${data.infoUserSend._id}">Bạn bè</button></div></div></div>
+            `;
+            dataUsersAccept.appendChild(newBoxUser);
+            const btnRefuseFriend = newBoxUser.querySelector("[btn-refuse-friend]");
+            deleteUser(btnRefuseFriend)
+            const btnAccpetFriend = newBoxUser.querySelector("[btn-accept-friend]");
+            accpetUser(btnAccpetFriend)
+        }
+    }
+
+    // Xoá người vừa gửi khỏi trang danh sách người dùng
+    const dataUsersNotFriend = document.querySelector(`[data-users-not-friend="${data.userId}"]`);
+    if (dataUsersNotFriend){
+        const exitUser = dataUsersNotFriend.querySelector(`[user-id="${data.infoUserSend._id}"]`)
+        if (exitUser){
+            dataUsersNotFriend.removeChild(exitUser);
+        }
     }
 
 })
@@ -98,7 +111,5 @@ socket.on("SERVER_RETURN_CANCEL_FRIEND", (data) => {
         const boxUser = document.querySelector(`[user-id="${data.userIdSend}"]`)
         dataUsersAccept.removeChild(boxUser)
     }
- 
-    
 })
 // SERVER_RETURN_CANCEL_FRIEND
