@@ -113,3 +113,30 @@ socket.on("SERVER_RETURN_CANCEL_FRIEND", (data) => {
     }
 })
 // SERVER_RETURN_CANCEL_FRIEND
+
+
+// SERVER_RETURN_STATUS_ONLINE
+socket.on("SERVER_RETURN_STATUS_ONLINE", (data) => {
+    const dataUsersFriend = document.querySelector(`[data-users-friend`)
+    if (dataUsersFriend){
+        const boxUser = dataUsersFriend.querySelector(`[user-id="${data.userId}"]`);
+        if (boxUser){
+            const boxInnerStatus = boxUser.querySelector(".inner-status");
+            boxInnerStatus.setAttribute("status", data.statusOnline);                                                   
+        }
+    }
+})
+// SERVER_RETURN_STATUS_ONLINE
+
+// SERVER_RETURN_STATUS_OFFLINE
+socket.on("SERVER_RETURN_STATUS_OFFLINE", (data) => {
+    const dataUsersFriend = document.querySelector(`[data-users-friend`)
+    if (dataUsersFriend){
+        const boxUser = dataUsersFriend.querySelector(`[user-id="${data.userId}"]`);
+        if (boxUser){
+            const boxInnerStatus = boxUser.querySelector(".inner-status");
+            boxInnerStatus.setAttribute("status", data.statusOnline);                                                   
+        }
+    }
+})
+// SERVER_RETURN_STATUS_OFFLINE
