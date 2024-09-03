@@ -1,5 +1,5 @@
 const User = require("../../models/user.model.js");
-
+const RoomsChat = require("../../models/rooms-chat.model.js");
 
 module.exports = async (req, res) => {
 
@@ -14,12 +14,12 @@ module.exports = async (req, res) => {
                 _id: data.userIdRecieve,
                 acceptFriends: userIdSend
             })
-            if (!exitSend){
+            if (!exitSend) {
                 await User.updateOne({
                     _id: data.userIdRecieve,
                 }, {
                     $push: { acceptFriends: userIdSend }
-                }) 
+                })
             }
 
             // Thêm id người nhận vào request friend của người gửi 
@@ -27,11 +27,11 @@ module.exports = async (req, res) => {
                 _id: userIdSend,
                 requestFriends: data.userIdRecieve
             })
-            if (!exitRecieve){
+            if (!exitRecieve) {
                 await User.updateOne({
                     _id: userIdSend
                 }, {
-                    $push: { requestFriends: data.userIdRecieve}
+                    $push: { requestFriends: data.userIdRecieve }
                 })
             }
 
@@ -66,7 +66,7 @@ module.exports = async (req, res) => {
                 _id: userIdRecieve,
                 acceptFriends: userIdSend,
             });
-            if (exitRecieve){
+            if (exitRecieve) {
                 await User.updateOne({
                     _id: userIdRecieve
                 }, {
@@ -79,7 +79,7 @@ module.exports = async (req, res) => {
                 _id: userIdSend,
                 acceptFriends: userIdRecieve,
             });
-            if (exitRecieve){
+            if (exitRecieve) {
                 await User.updateOne({
                     _id: userIdSend
                 }, {
@@ -107,7 +107,7 @@ module.exports = async (req, res) => {
         socket.on("CLIENT_REFUSE_FRIEND", async (data) => { // Bị ngược
             const userIdRefuse = userIdSend;
             const userIdMake = data;
-            
+
             await User.updateOne({
                 _id: userIdRefuse
             }, {
@@ -135,24 +135,45 @@ module.exports = async (req, res) => {
         socket.on("CLIENT_ACCEPT_FRIEND", async (data) => {
             const userIdAccept = userIdSend;
             const userIdMake = data;
+            // Tạo 1 phòng chats cho 2 người mới kết bạn
+            const roomchat = new RoomsChat({
+                typeRoom: "friend",   
+                users: [
+                    {
+                        user_id: userIdAccept,
+                        role: "superAdmin",
+                    },
+                    {
+                        user_id: userIdMake,
+                        role: "superAdmin",
+                    }
+                ]
+            });
+
+            await roomchat.save();
+
             // Thêm vào các friend list tương ứng và xóa khỏi accept, request 
             await User.updateOne({
                 _id: userIdAccept
             }, {
-                $push: { friendsList: {
-                    user_id: userIdMake,
-                    room_chat_id: "",
-                } },
+                $push: {
+                    friendsList: {
+                        user_id: userIdMake,
+                        room_chat_id: roomchat.id,
+                    }
+                },
                 $pull: { acceptFriends: userIdMake }
             })
 
             await User.updateOne({
                 _id: userIdMake
             }, {
-                $push: { friendsList: {
-                    user_id: userIdAccept,
-                    room_chat_id: "",
-                } },
+                $push: {
+                    friendsList: {
+                        user_id: userIdAccept,
+                        room_chat_id: roomchat.id,
+                    }
+                },
                 $pull: { requestFriends: userIdAccept }
             })
 

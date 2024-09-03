@@ -1,5 +1,5 @@
 import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js'
-
+import { FileUploadWithPreview } from 'https://unpkg.com/file-upload-with-preview/dist/index.js'
 
 // Show alert
 
@@ -46,7 +46,7 @@ const formSendData = document.querySelector(".chat .inner-form");
 
 if (formSendData){
 
-    const upload = new FileUploadWithPreview.FileUploadWithPreview('upload-images', {
+    const upload = new FileUploadWithPreview('upload-images', {
         multiple: true,
         maxFileCount: 6
     });
@@ -63,7 +63,7 @@ if (formSendData){
             });
             formSendData.content.value = "";
             socket.emit("CLIENT_SEND_TYPING", "hidden");
-            upload.resetPreviewPanel(); // clear all selected images
+            // upload.resetPreviewPanel(); // clear all selected images
         }
     })
 }
