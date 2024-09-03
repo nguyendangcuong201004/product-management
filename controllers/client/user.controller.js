@@ -134,10 +134,12 @@ module.exports.forgotPassword = async (req, res) => {
 module.exports.forgotPasswordPost = async (req, res) => {
     const email = req.body.email;
 
+
     const user = await User.findOne({
         email: email,
-        delete: false,
+        deleted: false,
     })
+
 
     if (!user) {
         req.flash("error", "Tài khoản không tồn tại!");
