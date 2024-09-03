@@ -2,19 +2,24 @@ const RoomsChat = require("../../models/rooms-chat.model.js");
 
 
 module.exports.isAccess = async (req, res, next) => {
-    const roomChatId = req.params.roomChatId;
-    const userId = res.locals.user.id;
+    try {
+        const roomChatId = req.params.roomChatId;
+        const userId = res.locals.user.id;
 
-    const userInRoomChat = await RoomsChat.findOne({
-        _id: roomChatId,
-        "users.user_id": userId,
-        deleted: false,
-    })
+        const userInRoomChat = await RoomsChat.findOne({
+            _id: roomChatId,
+            "users.user_id": userId,
+            deleted: false,
+        })
 
-    if (!userInRoomChat){
-        res.redirect("client/pages/errors/404.pug");
-        return;
+        if (!userInRoomChat) {
+            res.redirect("client/pages/errors/404.pug");
+            return;
+        }
+
+        next();
     }
-
-    next();
+    catch (error) {
+        res.redirect("client/pages/errors/404.pug");
+    }
 }
