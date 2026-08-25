@@ -60,6 +60,12 @@ app.get("*", (req, res) => {
 
 
 
-server.listen(port, () => {
-    console.log(`Chay tren cong ${port}`);
-})
+// Chỉ listen khi chạy trực tiếp (local), Vercel sẽ dùng app như serverless handler
+if (require.main === module) {
+    server.listen(port, () => {
+        console.log(`Chay tren cong ${port}`);
+    })
+}
+
+// Export app để Vercel invoke được
+module.exports = app;
