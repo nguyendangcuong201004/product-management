@@ -1,22 +1,39 @@
-.sider
-    .inner-menu 
-        ul 
+aside.sider(id="admin-sider")
+    nav
+        .nav-group-label Quản lý
+        ul.sider-nav
             li
-                a(href=`${prefixAdmin}/dashboard`) Tổng quan
+                a.nav-item(href=`${prefixAdmin}/dashboard`)
+                    i.fa-solid.fa-house
+                    | Tổng quan
             if(role.permissions.includes("products_view"))
                 li
-                    a(href=`${prefixAdmin}/products`) Sản phẩm 
+                    a.nav-item(href=`${prefixAdmin}/products`)
+                        i.fa-solid.fa-cube
+                        | Sản phẩm 
             if(role.permissions.includes("products-category_view"))
                 li
-                    a(href=`${prefixAdmin}/products-category`) Danh mục
-            if(role.permissions.includes("roles_view"))
-                li
-                    a(href=`${prefixAdmin}/roles`) Nhóm quyền 
-            if(role.permissions.includes("roles_permissions"))
-                li
-                    a(href=`${prefixAdmin}/roles/permissions`) Phân quyền 
+                    a.nav-item(href=`${prefixAdmin}/products-category`)
+                        i.fa-solid.fa-layer-group
+                        | Danh mục
             if(role.permissions.includes("accounts_view"))
                 li
-                    a(href=`${prefixAdmin}/accounts`) Tài khoản
+                    a.nav-item(href=`${prefixAdmin}/accounts`)
+                        i.fa-solid.fa-users
+                        | Tài khoản
+        .nav-group-label Hệ thống
+        ul.sider-nav
+            if(role.permissions.includes("roles_view"))
+                li
+                    a.nav-item(href=`${prefixAdmin}/roles`)
+                        i.fa-solid.fa-user-shield
+                        | Nhóm quyền 
+            if(role.permissions.includes("roles_permissions"))
+                li
+                    a.nav-item(href=`${prefixAdmin}/roles/permissions`)
+                        i.fa-solid.fa-shield-halved
+                        | Phân quyền 
             li
-                a(href=`${prefixAdmin}/settings/general`) Cài đặt chung
+                a.nav-item(href=`${prefixAdmin}/settings/general`)
+                    i.fa-solid.fa-gear
+                    | Cài đặt chung

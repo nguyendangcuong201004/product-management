@@ -1,21 +1,29 @@
 extends ../../layouts/default.pug 
 include ../../mixins/alert.pug
-include ../../mixins/box-head.pug
 
 block main 
     +alert-success()
     +alert-error()
-    .container  
-        .row.justify-content-center 
-            .col-8
-                h1.mb-4 Thông tin cá nhân
 
-                if(user.avatar)
-                    img(src=user.avatar width="50px" class="mb-3")
-                else 
-                    img(src="/admin/images/avatar.png" width="50px" class="mb-3")
-                if(user.fullName)
-                    div(class="mb-3") Họ và tên: <b>#{user.fullName}</b>
-                if(user.email)
-                    div(class="mb-3") Eamil: <b>#{user.email}</b>
-                            
+    .container.my-5 
+        .auth-page(style="padding: 0")
+            .panel.profile-panel(style="max-width: 560px; margin-top: 0") 
+                .profile-head 
+                    img(
+                        class="profile-avatar"
+                        src=user.avatar ? user.avatar : "/admin/images/avatar.png"
+                        alt=user.fullName
+                    )
+                    div 
+                        h2.profile-name #{user.fullName}
+                        span.tag Khách hàng
+
+                dl.detail-list
+                    if(user.fullName)
+                        .profile-row 
+                            dt Họ và tên
+                            dd #{user.fullName}
+                    if(user.email)
+                        .profile-row 
+                            dt Email
+                            dd #{user.email}

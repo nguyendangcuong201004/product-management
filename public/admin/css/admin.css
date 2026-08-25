@@ -1,0 +1,280 @@
+/* ==========================================================================
+   MERIDIAN — ADMIN SHELL
+   Phụ thuộc tokens.css + components.css.
+   ========================================================================== */
+
+/* ---- Topbar ---- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  height: var(--topbar-h);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: 0 var(--sp-6);
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.topbar-burger {
+  display: none;
+}
+
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: 15px;
+  font-weight: var(--fw-bold);
+  letter-spacing: -0.01em;
+  color: var(--ink-900);
+  text-decoration: none;
+}
+
+.topbar-brand:hover { color: var(--ink-900); }
+
+.topbar-badge {
+  font-size: 10px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--brand-700);
+  background: var(--brand-50);
+  padding: 2px 7px;
+  border-radius: 5px;
+}
+
+.topbar-spacer { flex: 1; }
+
+.topbar-user {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.topbar-account {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 4px 10px 4px 4px;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition: background-color var(--motion-fast) var(--ease-out);
+}
+
+.topbar-account:hover {
+  background: var(--fill);
+  text-decoration: none;
+}
+
+.topbar-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--fill);
+}
+
+.topbar-user-name {
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-medium);
+  color: var(--ink-700);
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---- Sidebar ---- */
+.sider {
+  position: fixed;
+  top: var(--topbar-h);
+  left: 0;
+  bottom: 0;
+  width: var(--sidebar-w);
+  background: var(--canvas);
+  border-right: 1px solid var(--line);
+  overflow-y: auto;
+  padding: var(--sp-4) var(--sp-3);
+  z-index: var(--z-offcanvas);
+  transition: transform 0.2s var(--ease-out);
+}
+
+.nav-group-label {
+  font-size: 10.5px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-400);
+  padding: 16px 10px 8px;
+}
+
+.nav-group-label:first-child {
+  padding-top: 0;
+}
+
+.sider-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--sp-2);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 36px;
+  padding: 0 10px;
+  margin-bottom: 2px;
+  border-radius: var(--radius-control);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-medium);
+  color: var(--ink-600);
+  text-decoration: none;
+  transition: background-color var(--motion-fast) var(--ease-out),
+    color var(--motion-fast) var(--ease-out);
+}
+
+.nav-item i {
+  width: 18px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--ink-400);
+  transition: color var(--motion-fast) var(--ease-out);
+}
+
+.nav-item:hover {
+  background: var(--fill);
+  color: var(--ink-900);
+  text-decoration: none;
+}
+
+.nav-item:hover i { color: var(--ink-600); }
+
+.nav-item.active {
+  background: var(--brand-50);
+  color: var(--brand-700);
+  font-weight: var(--fw-semibold);
+}
+
+.nav-item.active i { color: var(--brand-600); }
+
+/* ---- Content ---- */
+.admin-main {
+  min-height: calc(100vh - var(--topbar-h));
+  margin-left: var(--sidebar-w);
+}
+
+.content-frame {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 28px var(--sp-7) 56px;
+}
+
+/* ---- No permission state ---- */
+.no-access {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  text-align: center;
+  color: var(--ink-500);
+}
+
+/* ---- Account strip (dashboard) ---- */
+.account-strip {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-5) var(--sp-6);
+  margin-top: var(--sp-6);
+}
+
+.account-strip-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--fill);
+  flex-shrink: 0;
+}
+
+.account-strip-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.account-strip-name {
+  font-size: var(--fs-title-3);
+  font-weight: var(--fw-semibold);
+  color: var(--ink-900);
+  margin: 0 0 6px;
+}
+
+.account-strip-meta {
+  display: flex;
+  gap: var(--sp-4);
+  flex-wrap: wrap;
+  margin-top: 8px;
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+}
+
+/* ---- Permissions matrix ---- */
+.perm-group-row td {
+  background: var(--fill) !important;
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-600);
+}
+
+.table td input[type="checkbox"] {
+  vertical-align: middle;
+}
+
+/* ---- Responsive off-canvas < 1024px ---- */
+.sidebar-backdrop {
+  position: fixed;
+  inset: var(--topbar-h) 0 0 0;
+  background: rgba(15, 23, 42, 0.35);
+  z-index: calc(var(--z-offcanvas) - 1);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s var(--ease-out);
+}
+
+@media (max-width: 1023.98px) {
+  .topbar { padding: 0 var(--sp-4); }
+
+  .topbar-burger {
+    display: inline-flex;
+  }
+
+  .sider {
+    transform: translateX(-100%);
+    background: var(--surface);
+  }
+
+  .sider.open {
+    transform: translateX(0);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .sidebar-backdrop.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .admin-main { margin-left: 0; }
+
+  .content-frame {
+    padding: var(--sp-5) var(--sp-4) var(--sp-9);
+  }
+
+  .topbar-user-name { display: none; }
+}

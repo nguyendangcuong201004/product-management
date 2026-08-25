@@ -1,23 +1,45 @@
 extends ../../layouts/default.pug
 
 block main 
-    h1.mb-4 Thông tin cá nhân
+    .page-header 
+        .page-header-info 
+            h1.page-header-title Thông tin cá nhân
+            p.page-header-desc Hồ sơ tài khoản quản trị của bạn
 
-    if(user.avatar)
-        img(src=user.avatar width="300px" class="mb-3")
-    else 
-        img(src="/admim/images/avatar.png" width="300px" class="mb-3")
-    if(user.fullName)
-        div(class="mb-3") Họ và tên: <b>#{user.fullName}</b>
-    if(user.email)
-        div(class="mb-3") Eamil: <b>#{user.email}</b>
-    if(user.phone)
-        div(class="mb-3") Số điện thoại: <b>#{user.phone}</b>
-    if(user.status)
-        div(class="mb-3") Trạng thái: <b>#{user.status == "active" ? "Hoạt động" : "Dừng hoạt động"}</b>
-    if(user.role_id)
-        div(class="mb-3") Phân quyền: <b>#{role.title}</b>
-    a(
-        href=`${prefixAdmin}/my-account/edit`
-        class="btn btn-primary"
-    ) Chỉnh sửa thông tin
+    .panel.profile-panel 
+        .profile-head 
+            img(
+                class="profile-avatar"
+                src=user.avatar ? user.avatar : "/admin/images/avatar.png"
+                alt=user.fullName
+            )
+            div 
+                h2.profile-name #{user.fullName}
+                if (role.title)
+                    span.tag.tag-brand #{role.title}
+
+        dl.detail-list
+            if (user.fullName)
+                .profile-row 
+                    dt Họ và tên
+                    dd #{user.fullName}
+            if (user.email)
+                .profile-row 
+                    dt Email
+                    dd #{user.email}
+            if (user.phone)
+                .profile-row 
+                    dt Số điện thoại
+                    dd #{user.phone}
+            if (user.status)
+                .profile-row 
+                    dt Trạng thái
+                    dd
+                        if (user.status == "active")
+                            span.status.status-ok Hoạt động
+                        else 
+                            span.status.status-off Ngừng hoạt động
+            if (user.role_id)
+                .profile-row 
+                    dt Phân quyền
+                    dd #{role.title}

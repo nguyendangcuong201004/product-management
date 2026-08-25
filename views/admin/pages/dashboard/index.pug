@@ -1,47 +1,53 @@
 extends ../../layouts/default.pug
 
 block main 
-    h1 Tổng Quan
-    .row.mt-4 
-        .col-12 
-            .card.mb-4 
-                .card-header Thông tin tài khoản 
-                .cart-body.p-15 
-                    if (user.avatar)
-                        img(src=user.avatar, alt=user.fullName, width="300px" style="margin: 15px")
-                    if (user.fullName)
-                        div(style="margin: 10px") Họ tên: <b>#{user.fullName}</b>
+    .page-header 
+        .page-header-info 
+            h1.page-header-title Tổng quan
+            p.page-header-desc Tình hình hệ thống và thông tin tài khoản của bạn
+
+    .panel.account-strip 
+        img(
+            class="account-strip-avatar"
+            src=user.avatar ? user.avatar : "/admin/images/avatar.png"
+            alt=user.fullName
+        )
+        .account-strip-info 
+            p.account-strip-name #{user.fullName}
+            if (role.title)
+                span.tag.tag-brand #{role.title}
+            if (user.email || user.phone)
+                .account-strip-meta 
                     if (user.email)
-                        div(style="margin: 10px") Email: <b>#{user.email}</b>
+                        span #{user.email}
                     if (user.phone)
-                        div(style="margin: 10px") Số điện thoại: <b>#{user.phone}</b>
-                    if (role.title)
-                        div(style="margin: 10px") Phân quyền: <b>#{role.title}</b>
-        .col-6 
-            .card.mb-4 
-                .card-header Danh mục sản phẩm
-                .card-body 
-                    p Số lượng: <b>#{statistic.categoryProduct.total}</b>
-                    p Hoạt động: <b>#{statistic.categoryProduct.active}</b>
-                    p Dừng hoạt động: <b>#{statistic.categoryProduct.inactive}</b>
-        .col-6 
-            .card.mb-4 
-                .card-header Sản phẩm
-                .card-body 
-                    p Số lượng: <b>#{statistic.product.total}</b>
-                    p Hoạt động: <b>#{statistic.product.active}</b>
-                    p Dừng hoạt động: <b>#{statistic.product.inactive}</b>
-        .col-6 
-            .card.mb-4 
-                .card-header Tài khoản admin
-                .card-body 
-                    p Số lượng: <b>#{statistic.account.total}</b>
-                    p Hoạt động: <b>#{statistic.account.active}</b>
-                    p Dừng hoạt động: <b>#{statistic.account.inactive}</b>
-        .col-6 
-            .card.mb-4 
-                .card-header Tài khoản client
-                .card-body 
-                    p Số lượng: <b>#{statistic.user.total}</b>
-                    p Hoạt động: <b>#{statistic.user.active}</b>
-                    p Dừng hoạt động: <b>#{statistic.user.inactive}</b>
+                        span #{user.phone}
+
+    .stat-grid 
+        .stat-tile 
+            p.stat-label Danh mục sản phẩm
+            .stat-value #{statistic.categoryProduct.total}
+            .stat-meta 
+                span.status.status-ok #{statistic.categoryProduct.active} hoạt động
+                span.status.status-off #{statistic.categoryProduct.inactive} ngừng
+
+        .stat-tile 
+            p.stat-label Sản phẩm
+            .stat-value #{statistic.product.total}
+            .stat-meta 
+                span.status.status-ok #{statistic.product.active} hoạt động
+                span.status.status-off #{statistic.product.inactive} ngừng
+
+        .stat-tile 
+            p.stat-label Tài khoản admin
+            .stat-value #{statistic.account.total}
+            .stat-meta 
+                span.status.status-ok #{statistic.account.active} hoạt động
+                span.status.status-off #{statistic.account.inactive} ngừng
+
+        .stat-tile 
+            p.stat-label Tài khoản client
+            .stat-value #{statistic.user.total}
+            .stat-meta 
+                span.status.status-ok #{statistic.user.active} hoạt động
+                span.status.status-off #{statistic.user.inactive} ngừng

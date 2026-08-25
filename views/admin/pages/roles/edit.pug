@@ -2,7 +2,14 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug 
 
 block main 
-    h1(class="mb-4") Chỉnh sửa nhóm quyền
+    .page-header 
+        .page-header-info 
+            h1.page-header-title Chỉnh sửa nhóm quyền
+            p.page-header-desc #{data.title}
+        .page-header-actions 
+            a(href=`${prefixAdmin}/roles` class="btn btn-ghost")
+                i.fa-solid.fa-arrow-left
+                | Danh sách
 
     +alert-success()
 
@@ -10,28 +17,29 @@ block main
         action=`${prefixAdmin}/roles/edit/${data .id}?_method=PATCH`
         method="POST"
     )
-        div(class="form-group")
-            label(for="title") Tiêu đề 
-            input(
-                type="text"
-                class="form-control"
-                id="title"
-                name="title"
-                required
-                value=data.title
-            ) 
-        div(class="form-group")
-            label(for="desc") Mô tả
-            input(
-                type="text"
-                class="form-control"
-                name="description"
-                id="desc"
-                value=data.description
-            )
-        div(class="form-group")
-            button(
-                type="submit"
-                class="btn btn-primary"
-            ) Cập nhật
-            
+        .panel.form-panel 
+            .form-section 
+                .form-grid 
+                    div 
+                        label(for="title") Tiêu đề
+                        input(
+                            type="text"
+                            class="form-control"
+                            id="title"
+                            name="title"
+                            required
+                            value=data.title
+                        ) 
+                    div 
+                        label(for="desc") Mô tả
+                        input(
+                            type="text"
+                            class="form-control"
+                            name="description"
+                            id="desc"
+                            value=data.description
+                        )
+
+            .form-actions 
+                button(type="submit" class="btn btn-primary") Cập nhật
+                a(href=`${prefixAdmin}/roles` class="btn btn-ghost") Hủy

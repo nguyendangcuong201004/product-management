@@ -3,53 +3,56 @@ include ../../mixins/alert.pug
 
 block main 
     if(role.permissions.includes("roles_view"))
-        h1(class="mb-4") Nhóm quyền
+
+        .page-header 
+            .page-header-info 
+                h1.page-header-title Nhóm quyền
+                p.page-header-desc Phân nhóm quyền hạn cho tài khoản quản trị
+            .page-header-actions 
+                if(role.permissions.includes("roles_create"))
+                    a(
+                        href=`${prefixAdmin}/roles/create`
+                        class="btn btn-primary"
+                    )
+                        i.fa-solid.fa-plus
+                        | Thêm mới
 
         +alert-success()
 
-        .card.mb-3
-            .card-header Danh sách
-            .card-body
-                .row
-                    .col-8
-                    .col-4.text-right
-                        if(role.permissions.includes("roles_create"))
-                            a(
-                                href=`${prefixAdmin}/roles/create`
-                                class="btn btn-outline-success"
-                            ) + Thêm mới
-
-                table(
-                    class="table table-hover table-sm"
-                )
-                    thead
-                        tr
-                            th STT
-                            th Nhóm quyền
-                            th Mô tả ngắn
-                            th Hành động
-
-                    tbody
-                        if(records.length > 0)
+        if(records.length > 0)
+            .panel
+                .table-responsive
+                    table(class="table")
+                        thead
+                            tr
+                                th STT
+                                th Nhóm quyền
+                                th Mô tả
+                                th.text-right Hành động
+                        tbody
                             each item, index in records
                                 tr
-                                    td #{index + 1}
-                                    td #{item.title}
+                                    td.cell-muted.tnum #{index + 1}
+                                    td 
+                                        .cell-strong #{item.title}
                                     td #{item.description}
                                     td
-                                        a(
-                                            class="btn btn-secondary btn-sm"
-                                            href=`${prefixAdmin}/roles/detail/${item.id}`
-                                        ) Chi tiết
-                                        if(role.permissions.includes("roles_edit"))
-                                            a(
-                                                class="btn btn-warning btn-sm ml-1"
-                                                href=`${prefixAdmin}/roles/edit/${item.id}`
-                                            ) Sửa
-                                        if(role.permissions.includes("roles_delete"))
-                                            button(
-                                                class="btn btn-danger btn-sm ml-1"
-                                            ) Xóa
-                        else
-                            tr
-                                td(colspan="4" class="text-center") Chưa có nhóm quyền nào được tạo.
+                                        .row-actions
+                                            if(role.permissions.includes("roles_edit"))
+                                                a(
+                                                    class="icon-btn icon-btn-sm"
+                                                    href=`${prefixAdmin}/roles/edit/${item.id}`
+                                                    title="Sửa"
+                                                    aria-label="Sửa"
+                                                )
+                                                    i.fa-regular.fa-pen-to-square
+        else
+            .panel 
+                .empty-state 
+                    .empty-state-icon
+                        i.fa-solid.fa-user-shield
+                    h3.empty-state-title Chưa có nhóm quyền nào được tạo
+                    p.empty-state-desc Tạo nhóm quyền để phân quyền cho các tài khoản quản trị.
+                    .empty-state-actions
+                        if(role.permissions.includes("roles_create"))
+                            a(href=`${prefixAdmin}/roles/create` class="btn btn-secondary") Thêm nhóm quyền

@@ -1,6 +1,8 @@
 mixin filter(filterStatus)
-    each item in filterStatus
-        button(
-            class=`btn btn-sm ml-1 btn-outline-success ${item.class}`
-            button-status=item.status
-        ) #{item.name}
+    .seg-group(role="group" aria-label="Lọc theo trạng thái")
+        each item in filterStatus
+            button(
+                type="button"
+                class=`seg-item ${item.class}`
+                button-status=item.status
+            ) #{item.name}

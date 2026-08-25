@@ -1,71 +1,93 @@
 extends ../../layouts/default.pug
+include ../../mixins/alert.pug 
 
 block main 
     if(role.permissions.includes("accounts_view"))
-        h1 Danh sách tài khoản 
 
-        .card.mb-3 
-            .card-header Danh sách
-            .card-body 
-                .row 
-                    .col-8 
-                    .col-4.text-right 
-                        if(role.permissions.includes("accounts_create"))
-                            a(
-                                href=`${prefixAdmin}/accounts/create`
-                                class="btn btn-outline-success"
-                            ) + Thêm mới 
-                table(class="table table-hover table-sm")
-                    thead 
-                        tr 
-                            th STT
-                            th Avatar
-                            th Họ tên
-                            th Phân quyền
-                            th Email
-                            th Trạng thái
-                            th Hành động
-                    tbody 
-                        each item, index in records
+        +alert-success()
+        +alert-error()
+
+        .page-header 
+            .page-header-info 
+                h1.page-header-title Tài khoản
+                p.page-header-desc Quản lý tài khoản quản trị hệ thống
+            .page-header-actions 
+                if(role.permissions.includes("accounts_create"))
+                    a(
+                        href=`${prefixAdmin}/accounts/create`
+                        class="btn btn-primary"
+                    )
+                        i.fa-solid.fa-plus
+                        | Thêm mới
+
+        if (records.length > 0)
+            .panel 
+                .table-responsive 
+                    table(class="table")
+                        thead 
                             tr 
-                                td #{index + 1}
-                                td 
-                                    img(
-                                        src=item.avatar
-                                        alt=item.fullName 
-                                        width="100px"
-                                        height="auto"
-                                    )
-                                td  #{item.fullName}
-                                td #{item.roleTitle}
-                                td #{item.email}
-                                td 
-                                    if (item.status == "active")
-                                        a(href="javascript:;" 
-                                        class="badge badge-success" 
-                                        data-status="inactive") Hoạt động
-                                    else 
-                                        a(href="javascript:;" 
-                                        class="badge badge-danger"
-                                        data-status="active") Dừng hoạt động
-                                td 
-                                    if(role.permissions.includes("accounts_edit"))
-                                        a(
-                                            class="btn btn-warning btn-sm"
-                                            href=`${prefixAdmin}/accounts/edit/${item.id}`
-                                        ) Sửa
-                                    if(role.permissions.includes("accounts_delete"))
-                                        button(
-                                            class="btn btn-danger btn-sm ml-1"
-                                            button-delete-account
-                                            data-id=item.id) Xóa
-                                    a(
-                                        class="btn btn-info btn-sm ml-1"
-                                        href=`${prefixAdmin}/accounts/detail/${item.id}`
-                                    ) Chi tiết 
+                                th STT
+                                th Avatar
+                                th Họ tên
+                                th Phân quyền
+                                th Email
+                                th Trạng thái
+                                th.text-right Hành động
+                        tbody 
+                            each item, index in records
+                                tr 
+                                    td.cell-muted.tnum #{index + 1}
+                                    td
+                                        img(
+                                            class="table-thumb"
+                                            style="border-radius: 50%;"
+                                            src=item.avatar
+                                            alt=item.fullName 
+                                            loading="lazy"
+                                        )
+                                    td 
+                                        .cell-strong #{item.fullName}
+                                    td 
+                                        span.tag #{item.roleTitle}
+                                    td #{item.email}
+                                    td 
+                                        if (item.status == "active")
+                                            span.status.status-ok Hoạt động
+                                        else 
+                                            span.status.status-off Ngừng hoạt động
+                                    td 
+                                        .row-actions
+                                            if(role.permissions.includes("accounts_edit"))
+                                                a(
+                                                    class="icon-btn icon-btn-sm"
+                                                    href=`${prefixAdmin}/accounts/edit/${item.id}`
+                                                    title="Sửa"
+                                                    aria-label="Sửa"
+                                                )
+                                                    i.fa-regular.fa-pen-to-square
+                                            if(role.permissions.includes("accounts_delete"))
+                                                button(
+                                                    type="button"
+                                                    class="icon-btn icon-btn-sm icon-danger"
+                                                    button-delete-account
+                                                    data-id=item.id
+                                                    title="Xóa"
+                                                    aria-label="Xóa"
+                                                )
+                                                    i.fa-regular.fa-trash-can
+        else 
+            .panel 
+                .empty-state 
+                    .empty-state-icon
+                        i.fa-solid.fa-users
+                    h3.empty-state-title Chưa có tài khoản nào
+                    p.empty-state-desc Tạo tài khoản quản trị đầu tiên để phân quyền sử dụng.
+                    .empty-state-actions
+                        if(role.permissions.includes("accounts_create"))
+                            a(href=`${prefixAdmin}/accounts/create` class="btn btn-secondary") Thêm tài khoản
+
         form(
             form-delete-button-account
             method='POST' 
             action="" 
             data-patch=prefixAdmin+`/accounts/delete`)
-

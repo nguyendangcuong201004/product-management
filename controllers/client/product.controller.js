@@ -31,6 +31,11 @@ module.exports.detail = async (req, res) => {
         status: "active"
     })
 
+    if (!product){
+        res.redirect("/products")
+        return;
+    }
+
     const category = await ProductCategory.findOne({
         deleted: false,
         _id: product.product_category_id
@@ -38,16 +43,10 @@ module.exports.detail = async (req, res) => {
 
     product.category = category;
 
-
-    if (product){
-        res.render("client/pages/products/detail", {
-            pageTitle: product.title,
-            product: product
-        })
-    }
-    else {
-        res.redirect("/products")
-    }
+    res.render("client/pages/products/detail", {
+        pageTitle: product.title,
+        product: product
+    })
 
 }
 

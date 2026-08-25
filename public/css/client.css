@@ -1,0 +1,894 @@
+/* ==========================================================================
+   MERIDIAN — CLIENT (STOREFRONT)
+   Phụ thuộc tokens.css + components.css.
+   Giữ nguyên tên class/attribute mà JS & socket phụ thuộc.
+   ========================================================================== */
+
+/* ---- Container ---- */
+@media (min-width: 1200px) {
+  .container {
+    max-width: var(--container-w);
+  }
+}
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-6);
+  height: var(--client-header-h);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.brand img {
+  max-height: 38px;
+  width: auto;
+}
+
+.header-search {
+  flex: 1;
+  max-width: 420px;
+}
+
+.header-search .search-field {
+  width: 100%;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  margin-left: auto;
+}
+
+.main-nav-list {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-link-c {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: var(--client-header-h);
+  padding: 0 14px;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-medium);
+  color: var(--ink-600);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--motion-fast) var(--ease-out);
+}
+
+.nav-link-c:hover {
+  color: var(--ink-900);
+  text-decoration: none;
+}
+
+.nav-link-c.active {
+  color: var(--ink-900);
+  font-weight: var(--fw-semibold);
+}
+
+.nav-link-c.active::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px 2px 0 0;
+  background: var(--brand-600);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.icon-btn {
+  position: relative;
+}
+
+.cart-count {
+  position: absolute;
+  top: 3px;
+  right: 1px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: var(--radius-full);
+  background: var(--brand-600);
+  color: #fff;
+  font-size: 10px;
+  font-weight: var(--fw-semibold);
+  line-height: 16px;
+  text-align: center;
+}
+
+.account-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  height: 38px;
+  padding: 0 14px;
+  border-radius: var(--radius-control);
+  background: var(--fill);
+  color: var(--ink-800);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-medium);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--motion-fast) var(--ease-out);
+}
+
+.account-chip:hover {
+  background: #e2e8f0;
+  color: var(--ink-900);
+  text-decoration: none;
+}
+
+/* Sub-menu dropdown */
+.sub-menu {
+  position: relative;
+}
+
+.sub-menu > ul {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  list-style: none;
+  padding: 6px;
+  margin: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-media);
+  box-shadow: var(--shadow-md);
+  min-width: 200px;
+  display: none;
+  z-index: var(--z-dropdown);
+}
+
+.sub-menu ul li {
+  position: relative;
+  display: block;
+  padding: 0;
+  border-bottom: none;
+}
+
+.sub-menu ul li a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-medium);
+  color: var(--ink-700);
+  text-decoration: none;
+}
+
+.sub-menu ul li a:hover {
+  color: var(--ink-900);
+  background: var(--fill);
+}
+
+.sub-menu:hover > ul {
+  display: block;
+}
+
+.sub-menu ul li ul {
+  left: 100%;
+  top: -6px;
+  right: auto;
+}
+
+.sub-menu ul li:hover > ul {
+  display: block;
+}
+
+/* Responsive header */
+@media (max-width: 991.98px) {
+  .header-inner {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 10px 0;
+    row-gap: 8px;
+    gap: var(--sp-3);
+  }
+
+  .header-search {
+    order: 3;
+    flex-basis: 100%;
+    max-width: none;
+  }
+
+  .main-nav,
+  .main-nav-list {
+    order: 4;
+    flex-basis: 100%;
+    margin-left: 0;
+    overflow-x: auto;
+    gap: 0;
+  }
+
+  .nav-link-c {
+    height: 44px;
+  }
+
+  .nav-link-c.active::after {
+    left: 14px;
+    right: 14px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .account-chip {
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+/* Floating chat button */
+a.chat-realtime {
+  position: fixed;
+  right: 20px;
+  bottom: 24px;
+  z-index: 1030;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: var(--radius-full);
+  background: var(--brand-600);
+  color: #fff;
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-medium);
+  text-decoration: none;
+  box-shadow: var(--shadow-lg);
+  transition: background-color var(--motion-fast) var(--ease-out),
+    transform var(--motion-fast) var(--ease-out);
+}
+
+a.chat-realtime:hover {
+  background: var(--brand-700);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.site-footer {
+  margin-top: var(--sp-10);
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+}
+
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-6) 0;
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+}
+
+.footer-links {
+  display: flex;
+  gap: var(--sp-5);
+}
+
+.footer-links a {
+  color: var(--ink-500);
+  font-weight: var(--fw-medium);
+}
+
+.footer-links a:hover {
+  color: var(--brand-600);
+}
+
+/* ==========================================================================
+   SECTION HEADERS
+   ========================================================================== */
+.box-head {
+  margin: 0 0 var(--sp-5);
+}
+
+.box-head .inner-title {
+  font-size: var(--fs-title-2);
+  font-weight: var(--fw-semibold);
+  letter-spacing: -0.01em;
+  color: var(--ink-900);
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   PRODUCT CARD — image-forward, không viền hộp
+   ========================================================================== */
+.product-item {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
+}
+
+.product-item .inner-image {
+  width: 100%;
+  aspect-ratio: 4/3;
+  border: none;
+  border-radius: var(--radius-media);
+  overflow: hidden;
+  background: var(--fill);
+}
+
+.product-item .inner-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s var(--ease-out);
+}
+
+.product-item:hover .inner-image img {
+  transform: scale(1.03);
+}
+
+.product-item .inner-content {
+  padding: var(--sp-3) var(--sp-1) 0;
+}
+
+.product-item .inner-content .inner-title {
+  font-size: var(--fs-title-3);
+  font-weight: var(--fw-medium);
+  line-height: 1.45;
+  margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-item .inner-content .inner-title a {
+  color: var(--ink-900);
+  text-decoration: none !important;
+}
+
+.product-item .inner-content .inner-title a:hover {
+  color: var(--brand-700);
+}
+
+.product-item .inner-content .inner-price-new {
+  display: inline-block;
+  margin-right: 8px;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+  color: var(--ink-900);
+  font-variant-numeric: tabular-nums;
+}
+
+.product-item .inner-content .inner-price-old {
+  display: inline-block;
+  margin-right: 8px;
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-normal);
+  color: var(--ink-400);
+  text-decoration: line-through;
+  font-variant-numeric: tabular-nums;
+}
+
+.product-item .inner-content .inner-discount {
+  display: inline-block;
+  vertical-align: 2px;
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-semibold);
+  color: var(--danger-700);
+  background: var(--danger-bg);
+}
+
+/* Add-to-cart form trên trang chi tiết */
+.cart-add-form {
+  display: flex;
+  gap: var(--sp-3);
+  margin-top: var(--sp-5);
+  max-width: 360px;
+}
+
+.cart-add-form .form-control {
+  width: 96px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.cart-add-form .btn {
+  flex: 1;
+}
+
+/* Product detail */
+.product-detail .inner-thumb img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-surface);
+  border: 1px solid var(--line);
+}
+
+.product-detail .inner-title {
+  font-size: var(--fs-display);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.25;
+  margin-bottom: var(--sp-3);
+}
+
+.product-detail .inner-category {
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+}
+
+.product-detail .inner-price-new {
+  color: var(--ink-900);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-title-1);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: var(--sp-1);
+}
+
+.product-detail .inner-price-old {
+  color: var(--ink-400);
+  font-weight: var(--fw-normal);
+  font-size: var(--fs-body-lg);
+  text-decoration: line-through;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: var(--sp-2);
+}
+
+.product-detail .inner-percent {
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-caption);
+  color: var(--ink-600);
+}
+
+.product-detail .inner-percent span {
+  color: var(--danger-700);
+  background: var(--danger-bg);
+  font-weight: var(--fw-semibold);
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.product-detail .inner-stock {
+  margin-bottom: var(--sp-4);
+  font-size: var(--fs-caption);
+  color: var(--ink-600);
+}
+
+.product-detail .inner-stock span {
+  color: var(--success-700);
+  background: var(--success-bg);
+  font-weight: var(--fw-semibold);
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.product-detail .inner-desc img {
+  max-width: 100%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: var(--radius-media);
+}
+
+.prose {
+  font-size: var(--fs-body-lg);
+  line-height: 1.65;
+  color: var(--ink-800);
+}
+
+/* ==========================================================================
+   SOCIAL — user / room cards (class contract giữ nguyên)
+   ========================================================================== */
+.box-user {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  padding: 14px;
+  border-radius: var(--radius-media);
+  margin-bottom: var(--sp-4);
+  background: var(--surface);
+}
+
+.box-user .inner-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--fill);
+  margin-right: var(--sp-3);
+  flex-shrink: 0;
+}
+
+.box-user .inner-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.box-user .inner-info {
+  flex: 1;
+}
+
+.box-user .inner-info .inner-name {
+  font-size: var(--fs-body);
+  font-weight: var(--fw-medium);
+  color: var(--ink-900);
+  margin-bottom: 2px;
+}
+
+.box-user [btn-cancel-friend] { display: none; }
+.box-user.add [btn-add-friend] { display: none; }
+.box-user.add [btn-cancel-friend] { display: inline-block; }
+.box-user.refuse [btn-refuse-friend] { display: none; }
+.box-user.refuse [btn-accept-friend] { display: none; }
+.box-user.accepted [btn-refuse-friend] { display: none; }
+.box-user.accepted [btn-accept-friend] { display: none; }
+.box-user [btn-delete-friend] { display: none; }
+.box-user.refuse [btn-delete-friend] { display: inline-block; }
+.box-user [btn-accepted-friend] { display: none; }
+.box-user.accepted [btn-accepted-friend] { display: inline-block; }
+
+.box-user .inner-status {
+  font-size: 15px;
+  color: var(--success-600);
+  opacity: 0;
+  position: absolute;
+  top: 10px;
+  left: 30px;
+}
+
+.box-user .inner-status[status="online"] {
+  opacity: 1;
+}
+
+.box-user .inner-status[status="online"] i {
+  border: 2px solid var(--surface);
+  border-radius: 50%;
+  padding: 0;
+  margin: 0;
+}
+
+.box-room {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  padding: 14px;
+  border-radius: var(--radius-media);
+  margin-bottom: var(--sp-4);
+  background: var(--surface);
+}
+
+.box-room .inner-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--fill);
+  margin-right: var(--sp-3);
+  flex-shrink: 0;
+}
+
+.box-room .inner-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.box-room .inner-info {
+  flex: 1;
+}
+
+.box-room .inner-info .inner-name {
+  font-size: var(--fs-body);
+  font-weight: var(--fw-medium);
+  color: var(--ink-900);
+  margin-bottom: 2px;
+}
+
+/* Online dot trong box-user */
+.box-user { position: relative; }
+
+/* ==========================================================================
+   CHAT (class contract giữ nguyên cho socket)
+   ========================================================================== */
+.chat {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-surface);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.chat .inner-head {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.chat .inner-head .inner-avatar {
+  background: var(--brand-600);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-block;
+  font-weight: var(--fw-bold);
+  text-align: center;
+  line-height: 32px;
+  color: #fff;
+  font-size: var(--fs-caption);
+}
+
+.chat .inner-head .inner-name {
+  display: inline-block;
+  font-weight: var(--fw-semibold);
+  margin-left: var(--sp-2);
+}
+
+.chat .inner-body {
+  padding: var(--sp-4);
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+.chat .inner-body .inner-name {
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+}
+
+.chat .inner-body .inner-content {
+  background: var(--fill);
+  margin-bottom: var(--sp-2);
+  max-width: 240px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  line-height: 1.45;
+  font-size: var(--fs-body);
+}
+
+.chat .inner-outgoing .inner-content {
+  margin-left: auto;
+  background: var(--brand-600);
+  color: #fff;
+}
+
+.chat .inner-foot {
+  border-top: 1px solid var(--line);
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.chat .inner-form {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.chat .inner-form input {
+  flex: 1;
+  height: 38px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-full);
+  padding: 0 14px;
+  outline: none;
+  font-size: var(--fs-body);
+  transition: border-color var(--motion-fast), box-shadow var(--motion-fast);
+}
+
+.chat .inner-form input:focus {
+  border-color: var(--brand-500);
+  box-shadow: var(--focus-ring);
+}
+
+.chat .inner-form button {
+  border-radius: var(--radius-full);
+  border: none;
+  background: var(--brand-600);
+  color: #fff;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color var(--motion-fast);
+}
+
+.chat .inner-form button:hover {
+  background: var(--brand-700);
+}
+
+.chat .inner-body .inner-images img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  background-color: var(--surface);
+  border-radius: var(--radius-control);
+  cursor: zoom-in;
+}
+
+.chat .inner-body .inner-outgoing .inner-images {
+  margin-left: auto;
+  text-align: right;
+}
+
+.chat .inner-body .inner-outgoing .inner-images img {
+  margin: 0 0 5px 5px;
+}
+
+.chat .inner-body .inner-incoming .inner-images img {
+  margin: 0 5px 5px 0;
+}
+
+.chat .inner-foot span i {
+  font-size: 22px;
+  color: var(--ink-500);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  transition: background-color var(--motion-fast), color var(--motion-fast);
+}
+
+.chat .inner-foot span i:hover {
+  background: var(--fill);
+  color: var(--ink-800);
+}
+
+.chat .inner-foot label i {
+  font-size: 22px;
+  color: var(--ink-500);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  transition: background-color var(--motion-fast), color var(--motion-fast);
+}
+
+.chat .inner-foot label i:hover {
+  background: var(--fill);
+  color: var(--ink-800);
+}
+
+.chat .inner-preview-images {
+  position: relative;
+}
+
+.chat .inner-preview-images .label-container {
+  display: none;
+}
+
+.chat .inner-preview-images .input-container {
+  display: none;
+}
+
+.chat .inner-preview-images .image-preview {
+  height: auto;
+  padding: 0;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+}
+
+.chat .inner-preview-images .image-preview-item {
+  width: 90px;
+  background-size: contain;
+}
+
+/* Typing indicator */
+.box-typing {
+  position: relative;
+  padding-top: 4px;
+}
+
+.box-typing .inner-dots {
+  position: relative;
+  height: 24px;
+  width: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--fill);
+  border-radius: var(--radius-full);
+  margin-top: 2px;
+}
+
+.box-typing .inner-dots span {
+  animation: blink 1.5s infinite;
+  height: 5px;
+  width: 5px;
+  background: var(--ink-500);
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 3px;
+}
+
+.box-typing .inner-dots span:nth-child(2) { animation-delay: 0.2s; }
+.box-typing .inner-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes blink {
+  0%   { opacity: 0.15; }
+  20%  { opacity: 1; }
+  100% { opacity: 0.15; }
+}
+
+/* Tooltip emoji */
+.tooltip {
+  visibility: hidden;
+}
+
+.tooltip.shown {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* ==========================================================================
+   404
+   ========================================================================== */
+.error404 {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--sp-9) var(--sp-4);
+  text-align: center;
+}
+
+.error404 img {
+  width: 100%;
+  height: auto;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: var(--radius-surface);
+}
+
+.error404 a {
+  color: var(--ink-900);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-medium);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 20px;
+  margin-top: var(--sp-5);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  transition: background-color var(--motion-fast), color var(--motion-fast);
+}
+
+.error404 a:hover {
+  background: var(--canvas);
+  color: var(--ink-900);
+}

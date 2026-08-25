@@ -1,42 +1,48 @@
 extends ../../layouts/default.pug
-include ../../mixins/alert.pug
-include ../../mixins/box-head.pug
 
 block main 
-    +alert-success()
-    +alert-error()
+    .container.my-5 
 
-    .container.my-3 
-        .row 
-            .col-12 
-                +box-head("Đặt hàng thành công")
-        .row 
-            .col-12 
-                div(class="alert alert-success" style="font-size: 18px") 
-                    | Chúc mừng bạn đã đặt hàng thành công! Chúng tôi sẽ xử lý 
-                    | đơn hàng của bạn trong thời gian sớm nhất.
-        .row    
-            .col-12 
-                h4(class="mb-2") Thông tin đơn hàng
-                table(class="table table-bordered table-hover")
-                    thead 
-                        tr 
-                            th STT
-                            th Ảnh
-                            th Tên
-                            th Giá 
-                            th Số lượng
-                            th Tổng tiền 
-                    tbody   
-                        if(order.products.length > 0)
+        .order-confirm 
+            .order-confirm-icon
+                i.fa-solid.fa-check
+            h1 Đặt hàng thành công
+            p Chúc mừng bạn đã đặt hàng thành công! Chúng tôi sẽ xử lý đơn hàng của bạn trong thời gian sớm nhất.
+
+        if(order.products.length > 0)
+            .panel 
+                .panel-header 
+                    p.panel-title Thông tin đơn hàng
+                .table-responsive 
+                    table(class="table")
+                        thead 
+                            tr 
+                                th STT
+                                th Ảnh
+                                th Sản phẩm
+                                th.text-right Giá 
+                                th Số lượng
+                                th.text-right Thành tiền 
+                        tbody   
                             each item, index in order.products
                                 tr  
-                                    td  #{index + 1}
+                                    td.cell-muted.tnum #{index + 1}
                                     td  
-                                        img(src=item.thumbnail, alt=item.title width="100px")
-                                    td  #{item.title}
-                                    td  #{item.priceNew}$
-                                    td  #{item.quantity}
-                                    td  #{item.totalPrice}$
-                if(order.products.length > 0)
-                    h3(class="text-right") Tổng đơn hàng: #{order.orderTotal}$
+                                        img(
+                                            class="table-thumb"
+                                            src=item.thumbnail
+                                            alt=item.title
+                                            loading="lazy"
+                                        )
+                                    td #{item.title}
+                                    td.cell-num #{new Intl.NumberFormat("vi-VN").format(item.priceNew)}₫
+                                    td.tnum #{item.quantity}
+                                    td.cell-num.cell-strong #{new Intl.NumberFormat("vi-VN").format(item.totalPrice)}₫
+
+                .cart-summary(style="padding: 16px 20px; border-top: 1px solid var(--line)")
+                    div(style="text-align: right")
+                        p.cart-total-label Tổng đơn hàng
+                        p.cart-total-value(style="font-size: 24px") #{new Intl.NumberFormat("vi-VN").format(order.orderTotal)}₫
+
+            div(style="display: flex; justify-content: flex-end; margin-top: 20px")
+                a(href="/products" class="btn btn-secondary") Tiếp tục mua sắm

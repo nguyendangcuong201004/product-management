@@ -2,46 +2,51 @@ mixin show-recursion(records, level = 1)
     each item, index in records
         -   const prefix = Array(level + 1).join("-- ");
         tr
-            td 
-                input(type="checkbox" name="id" value=item.id)
-            td #{index + 1}
+            td.checkbox-col
+                input(type="checkbox" name="id" value=item.id aria-label=("Chọn " + item.title))
+            td.cell-muted.tnum #{index + 1}
             td
                 img(
+                    class="table-thumb"
                     src=item.thumbnail
                     alt=item.title
-                    width="100px"
-                    height="auto"
+                    loading="lazy"
                 )
-            td #{prefix}#{item.title}
+            td
+                span.cell-strong #{prefix}#{item.title}
             td 
-                input(value=item.position type="number" style="width: 60px" min="1" name="position")
+                input(
+                    value=item.position
+                    type="number"
+                    min="1"
+                    name="position"
+                    class="form-control input-position"
+                    aria-label="Vị trí"
+                )
             td
                 if (item.status == "active")
-                    a(href="javascript:;" 
-                    class="badge badge-success" 
-                    button-change-status=""
-                    data-id=item.id
-                    data-status="inactive") Hoạt động
+                    a(href="javascript:;" class="status status-ok" button-change-status="" data-id=item.id data-status="inactive") Hoạt động
                 else 
-                    a(href="javascript:;" 
-                    class="badge badge-danger"
-                    button-change-status=""
-                    data-id=item.id
-                    data-status="active") Dừng hoạt động
+                    a(href="javascript:;" class="status status-off" button-change-status="" data-id=item.id data-status="active") Ngừng hoạt động
             td
-                if(role.permissions.includes("products-category_edit"))
-                    a(
-                        class="btn btn-warning btn-sm"
-                        href=`${prefixAdmin}/products-category/edit/${item.id}`
-                    ) Sửa
-                if(role.permissions.includes("products-category_delete"))
-                    button(
-                        class="btn btn-danger btn-sm ml-1"
-                        button-delete=""
-                        data-id=item.id) Xóa
-                a(
-                    class="btn btn-info btn-sm ml-1"
-                    href=`${prefixAdmin}/products-category/detail/${item.id}`
-                ) Chi tiết 
+                .row-actions
+                    if(role.permissions.includes("products-category_edit"))
+                        a(
+                            class="icon-btn icon-btn-sm"
+                            href=`${prefixAdmin}/products-category/edit/${item.id}`
+                            title="Sửa"
+                            aria-label="Sửa"
+                        )
+                            i.fa-regular.fa-pen-to-square
+                    if(role.permissions.includes("products-category_delete"))
+                        button(
+                            type="button"
+                            class="icon-btn icon-btn-sm icon-danger"
+                            button-delete=""
+                            data-id=item.id
+                            title="Xóa"
+                            aria-label="Xóa"
+                        )
+                            i.fa-regular.fa-trash-can
         if(item.children && item.children.length > 0)
             +show-recursion(item.children, level + 1)

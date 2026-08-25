@@ -1,52 +1,54 @@
 include ../mixins/sub-menu.pug
 
-header.header
-  .row.align-items-center
-    .col-2
-      .inner-logo.ml-5
-        a(href="/")
-          img(src=settingGeneral.logo, alt="Logo" width="80px")
+header.site-header
+    .container
+        .header-inner
+            a.brand(href="/")
+                img(src=settingGeneral.logo alt=(settingGeneral.websiteName || "Logo"))
 
+            .header-search
+                form(
+                    action=`/search`
+                    method="GET"
+                    class="search-field"
+                )
+                    i(class="fa-solid fa-magnifying-glass search-icon")
+                    input(
+                        type="text"
+                        placeholder="Bạn cần tìm kiếm gì?"
+                        class="form-control"
+                        name="keyword"
+                        value=keyword
+                    )
 
-    .col-4
-      form(
-        action=`/search`
-        method="GET"
-      )
-        div(class="form-group d-flex mb-0")
-          input(
-            type="text"
-            placeholder="Bạn cần tìm kiếm gì?"
-            class="form-control"
-            name="keyword"
-            value=keyword
-          )
-          button(
-            type="submit"
-            class="btn btn-primary"
-          ) Tìm
+            nav.main-nav(aria-label="Điều hướng chính")
+                ul.main-nav-list
+                    li
+                        a(href="/" class="nav-link-c") Trang chủ
+                    li(class="sub-menu")
+                        a(href="/products" class="nav-link-c") Sản phẩm
+                        +sub-menu(layoutProductCatetory)
 
-    .col-6
-      .inner-menu.mr-5
-        ul
-          li
-            a(href="/") Trang chủ
-          li(class="sub-menu")
-            a(href="/products") Sản phẩm
-            +sub-menu(layoutProductCatetory)
-          li 
-            a(href="/cart") <i class="fa-solid fa-cart-shopping"></i> (#{miniCart ? miniCart.products.length : 0})
-          if (user)
-            li 
-              a(href="/user/info" class="btn btn-primary" style="color: white") #{user.fullName}
-          if (!user)
-            li 
-              a(href="/user/login" class="btn btn-primary" style="color: white") Đăng nhập
-            li 
-              a(href="/user/register" class="btn btn-primary" style="color: white") Đăng ký
-          if (user)
-            li 
-              a(href="/user/logout" class="btn btn-primary" style="color: white") Đăng xuất 
-  if (user)
-    a(href="/users/friends" class="chat-realtime") Bạn bè
+            .header-actions
+                a.icon-btn(href="/cart" aria-label="Giỏ hàng")
+                    i.fa-solid.fa-cart-shopping
+                    if (miniCart && miniCart.products.length > 0)
+                        span.cart-count #{miniCart.products.length}
 
+                if (user)
+                    a.account-chip(href="/user/info" title="Thông tin cá nhân")
+                        | #{user.fullName}
+                    a.icon-btn(
+                        href="/user/logout"
+                        title="Đăng xuất"
+                        aria-label="Đăng xuất"
+                    )
+                        i.fa-solid.fa-arrow-right-from-bracket
+                else
+                    a(href="/user/login" class="btn btn-ghost btn-sm") Đăng nhập
+                    a(href="/user/register" class="btn btn-primary btn-sm") Đăng ký
+
+if (user)
+    a(href="/users/friends" class="chat-realtime")
+        i.fa-regular.fa-comments
+        | Bạn bè

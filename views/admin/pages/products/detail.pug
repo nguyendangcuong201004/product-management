@@ -1,37 +1,56 @@
 extends ../../layouts/default.pug 
 
 block main 
-    h1(class="mb-4") Chi tiết sản phẩm 
+    -   const priceNew = Math.round(product.price - product.price * product.discountPercentage / 100);
 
-    if (product.title)
-        h2(class="mb-4") #{product.title}
+    .page-header 
+        .page-header-info 
+            h1.page-header-title Chi tiết sản phẩm
+            p.page-header-desc Xem trước thông tin hiển thị của sản phẩm
+        .page-header-actions 
+            a(href=`${prefixAdmin}/products` class="btn btn-ghost")
+                i.fa-solid.fa-arrow-left
+                | Danh sách
 
-    if (product.price)
-        div(class="mb-4") Giá: <b>#{product.price}$</b>
-    
-    if (product.discountPercentage)
-        div(class="mb-4") Giảm giá: <b>#{product.discountPercentage}%</b>
-    
-    if (product.stock)
-        div(class="mb-4") Còn lại: <b>#{product.stock} sản phẩm</b>
-
-    if (product.thumbnail)
-        div(class="mb-4")
+    .panel.profile-panel.detail-panel 
+        .profile-head 
             img(
+                class="profile-avatar"
+                style="border-radius: 12px; width: 80px; height: 80px;"
                 src=product.thumbnail
-                style="width: 100px"
+                alt=product.title
             )
+            div 
+                h2.profile-name #{product.title}
+                div 
+                    if (product.status)
+                        if(product.status == "active")
+                            span.status.status-ok Hoạt động
+                        else 
+                            span.status.status-off Ngừng hoạt động
 
-    if (product.status)
-        div(class="mb-4")
-            span Trạng thái 
-            if(product.status == "active")
-                span(class="badge badge-success") Hoạt động
-            else 
-                span(class="badge badge-danger") Dừng hoạt động
+        dl.detail-list 
+            if (product.price)
+                .profile-row 
+                    dt Giá bán
+                    dd #{new Intl.NumberFormat("vi-VN").format(priceNew)}₫
 
-    if (product.position)
-        div(class="mb-4") Vị trí: <b>#{product.position}</b>
+            if (product.discountPercentage)
+                .profile-row 
+                    dt Giảm giá
+                    dd #{product.discountPercentage}%
 
-    if(product.description)
-        div(class="mb-4") !{product.description}
+            if (product.stock)
+                .profile-row 
+                    dt Còn lại
+                    dd #{product.stock} sản phẩm
+
+            if (product.position)
+                .profile-row 
+                    dt Vị trí
+                    dd #{product.position}
+
+        if (product.description)
+            div(style="margin-top: 24px")
+                p.form-section-title Mô tả sản phẩm
+                .prose !{product.description}

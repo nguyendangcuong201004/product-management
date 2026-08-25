@@ -208,3 +208,14 @@ if (bodyChat){
 }
 
 // Preview Images
+
+// MERIDIAN UI: active state cho navigation chính (additive)
+const pathName = window.location.pathname;
+document.querySelectorAll(".main-nav .nav-link-c").forEach((link) => {
+    const href = link.getAttribute("href");
+    if (!href) return;
+    const isActive =
+        pathName === href ||
+        (href !== "/" && pathName.startsWith(href + "/"));
+    if (isActive) link.classList.add("active");
+});

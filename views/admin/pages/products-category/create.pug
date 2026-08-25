@@ -4,7 +4,14 @@ include ../../mixins/select-tree.pug
 
 
 block main 
-    h1(class="mb-4") Thêm mới danh mục sản phẩm 
+    .page-header 
+        .page-header-info 
+            h1.page-header-title Thêm mới danh mục
+            p.page-header-desc Danh mục có thể lồng nhau theo cấp cha - con
+        .page-header-actions 
+            a(href=`${prefixAdmin}/products-category` class="btn btn-ghost")
+                i.fa-solid.fa-arrow-left
+                | Danh sách
 
     +alert-error()
 
@@ -13,87 +20,98 @@ block main
         method="POST"
         enctype="multipart/form-data"
     )
-        div(class="form-group")
-            label(for="title") Tiêu đề
-            input(
-                type="text"
-                class="form-control"
-                id="title"
-                name="title"
-                required
-            )
-        div(class="form-group")
-            label(for="parent_id") Danh mục cha
-            //- input(
-            //-     type="text"
-            //-     class="form-control"
-            //-     id="parent_id"
-            //-     name="parent_id"
-            //- ) 
-            select(
-                name="parent_id"
-                id="parent_id"
-                class="form-control"
-            )
-                option(value="") -- Chọn danh mục cha --
-                if(records)
-                    +select-tree(records)
-        div(class="form-group")
-            label(for="desc")
-            textarea(
-                class="form-control"
-                id="desc"
-                name="description"
-                rows="5"
-                textarea-mce
-            )  
-        div(class="form-group" upload-image)
-            label(for="thumbnail") Ảnh 
-            input(
-                type="file"
-                class="form-control-file"
-                id="thumbnail"
-                name="thumbnail"
-                accept="image/*"
-                upload-image-input
-            ) 
-            img(
-                src=""
-                class="image-preview"
-                upload-image-preview
-            )
-        div(class="form-group")
-            label(for="position") Vị trí
-            input(
-                type="number"
-                class="form-control"
-                id="position"
-                name="position"
-                placeholder="Tự động tăng"
-                min="1"
-            ) 
-        div(class="form-group form-check form-check-inline")
-            input(
-                type="radio"
-                class="form-check-input"
-                id="statusActive"
-                name="status"
-                value="active"
-                checked=true
-            )
-            label(for="statusActive") Hoạt động 
-        div(class="form-group form-check form-check-inline")
-            input(
-                type="radio"
-                class="form-check-input"
-                id="statusInActive"
-                name="status"
-                value="inactive"
-            )
-            label(for="statusInActive") Dừng hoạt động 
-        div(class="form-group")
-            button(
-                type="submit"
-                class="btn btn-primary"
+        .panel.form-panel 
 
-            ) Tạo mới 
+            .form-section 
+                p.form-section-title Thông tin chung
+                .form-grid 
+                    div 
+                        label(for="title") Tiêu đề
+                        input(
+                            type="text"
+                            class="form-control"
+                            id="title"
+                            name="title"
+                            required
+                        )
+                    div 
+                        label(for="parent_id") Danh mục cha
+                        select(
+                            name="parent_id"
+                            id="parent_id"
+                            class="form-control"
+                        )
+                            option(value="") -- Chọn danh mục cha --
+                            if(records)
+                                +select-tree(records)
+
+            .form-section 
+                p.form-section-title Mô tả
+                textarea(
+                    class="form-control"
+                    id="desc"
+                    name="description"
+                    rows="5"
+                    textarea-mce
+                )  
+
+            .form-section 
+                p.form-section-title Hình ảnh
+                .form-grid 
+                    div.upload-field(upload-image)
+                        label(for="thumbnail") Ảnh minh họa
+                        input(
+                            type="file"
+                            class="form-control-file"
+                            id="thumbnail"
+                            name="thumbnail"
+                            accept="image/*"
+                            upload-image-input
+                        ) 
+                        img(
+                            src=""
+                            class="image-preview"
+                            upload-image-preview
+                            alt="Ảnh preview"
+                        )
+
+            .form-section 
+                p.form-section-title Vị trí và trạng thái
+                .form-grid.cols-2 
+                    div 
+                        label(for="position") Vị trí
+                        input(
+                            type="number"
+                            class="form-control"
+                            id="position"
+                            name="position"
+                            placeholder="Tự động tăng"
+                            min="1"
+                        ) 
+                        p.form-hint Để trống để tự động tăng
+                    div 
+                        label Trạng thái
+                        .radio-group 
+                            div(class="form-check form-check-inline")
+                                input(
+                                    type="radio"
+                                    class="form-check-input"
+                                    id="statusActive"
+                                    name="status"
+                                    value="active"
+                                    checked=true
+                                )
+                                label(for="statusActive" class="form-check-label") Hoạt động 
+                            div(class="form-check form-check-inline")
+                                input(
+                                    type="radio"
+                                    class="form-check-input"
+                                    id="statusInActive"
+                                    name="status"
+                                    value="inactive"
+                                )
+                                label(for="statusInActive" class="form-check-label") Ngừng hoạt động
+
+            .form-actions 
+                button(type="submit" class="btn btn-primary") Tạo mới 
+                a(href=`${prefixAdmin}/products-category` class="btn btn-ghost") Hủy

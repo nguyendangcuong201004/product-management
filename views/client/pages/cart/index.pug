@@ -1,37 +1,45 @@
 extends ../../layouts/default.pug 
-include ../../mixins/box-head.pug 
 include ../../mixins/alert.pug
 
 block main 
     +alert-success()
     +alert-error()
 
-    .container.my-3 
-        .row 
-            .col-12 
-                +box-head("Giỏ hàng của bạn")
-        .row 
-            .col-12 
-                if (cartDetail.products.length > 0)
-                    table(class="table table-hover table-bordered " table-cart)
+    .container.my-5 
+        .section-head 
+            div 
+                p.section-overline Giỏ hàng
+                h2.section-title Giỏ hàng của bạn
+            if (cartDetail.products.length > 0)
+                span.section-link.cell-muted #{cartDetail.products.length} sản phẩm
+
+        if (cartDetail.products.length > 0)
+            .panel 
+                .table-responsive 
+                    table(class="table table-hover" table-cart)
                         thead
                             tr  
                                 th STT 
                                 th Ảnh 
-                                th Tên sản phẩm 
-                                th Giá
+                                th Sản phẩm 
+                                th.text-right Giá
                                 th Số lượng
-                                th Thành tiền
-                                th Hành động
+                                th.text-right Thành tiền
+                                th
                         tbody 
                             each item, index in cartDetail.products
                                 tr 
-                                    td #{index + 1}
+                                    td.cell-muted.tnum #{index + 1}
+                                    td
+                                        img(
+                                            class="table-thumb"
+                                            src=item.infoProduct.thumbnail
+                                            alt=item.infoProduct.title
+                                            loading="lazy"
+                                        )
                                     td 
-                                        img(src=item.infoProduct.thumbnail alt=item.infoProduct.title width="80px")
-                                    td 
-                                        a(href=`/products/detail/${item.infoProduct.slug}`) #{item.infoProduct.title}
-                                    td #{Math.round(item.infoProduct.price - item.infoProduct.price * item.infoProduct.discountPercentage / 100)}$
+                                        a(href=`/products/detail/${item.infoProduct.slug}` class="cell-strong") #{item.infoProduct.title}
+                                    td.cell-num #{new Intl.NumberFormat("vi-VN").format(Math.round(item.infoProduct.price - item.infoProduct.price * item.infoProduct.discountPercentage / 100))}₫
                                     td 
                                         input(
                                             type="number"
@@ -40,16 +48,29 @@ block main
                                             min="1"
                                             max=item.infoProduct.stock
                                             item-id=item.product_id
-                                            style="width: 60px"
+                                            class="form-control input-position"
+                                            style="width: 72px"
+                                            aria-label="Số lượng"
                                         )
-                                    td #{item.quantity * Math.round(item.infoProduct.price - item.infoProduct.price * item.infoProduct.discountPercentage / 100)}$ 
+                                    td.cell-num.cell-strong #{new Intl.NumberFormat("vi-VN").format(item.quantity * Math.round(item.infoProduct.price - item.infoProduct.price * item.infoProduct.discountPercentage / 100))}₫
                                     td 
-                                        a(href=`/cart/delete/${item.product_id}` class="btn btn-danger" style="color: white") Xóa 
-                    h3(class="text-right mt-5") Tổng đơn hàng: #{cartDetail.totalPrice}$
-                    div(class="text-right mt-3")
-                        a(href="/checkout" class="btn btn-success") THANH TOÁN
-                else 
-                    div <b>Chưa có sản phẩm nào trong giỏ hàng !</b>
-                    a(href="/products" class="btn btn-success mt-3") Mua sắm ngay 
+                                        .row-actions
+                                            a(href=`/cart/delete/${item.product_id}` class="icon-btn icon-btn-sm icon-danger" title="Xóa" aria-label="Xóa")
+                                                i.fa-regular.fa-trash-can
 
-
+            .cart-summary 
+                div(style="text-align: right")
+                    p.cart-total-label Tổng đơn hàng
+                    p.cart-total-value #{new Intl.NumberFormat("vi-VN").format(cartDetail.totalPrice)}₫
+                a(href="/checkout" class="btn btn-primary btn-lg")
+                    | Thanh toán
+                    i.fa-solid.fa-arrow-right
+        else 
+            .panel 
+                .empty-state 
+                    .empty-state-icon
+                        i.fa-solid.fa-cart-shopping
+                    h3.empty-state-title Giỏ hàng trống
+                    p.empty-state-desc Bạn chưa thêm sản phẩm nào vào giỏ hàng.
+                    .empty-state-actions
+                        a(href="/products" class="btn btn-primary") Mua sắm ngay

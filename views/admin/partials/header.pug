@@ -1,17 +1,24 @@
-header.header 
-    .container-fluid 
-        .row.align-items-center 
-            .col-3
-                .inner-logo 
-                    a(href=`${prefixAdmin}/dashboard`) ADMIN
-
-            .col-9 
-                div(class="text-right")
-                    a(
-                        href=`${prefixAdmin}/my-account`
-                        class="btn btn-primary btn-sm mr-4"
-                    )   #{user.fullName}
-                    a(
-                        href=`${prefixAdmin}/auth/logout`
-                        class="btn btn-danger btn-sm"
-                    ) Đăng xuất 
+header.topbar 
+    button.topbar-burger.icon-btn(type="button" id="sidebar-toggle" aria-label="Mở menu")
+        i.fa-solid.fa-bars
+    a.topbar-brand(href=`${prefixAdmin}/dashboard`)
+        | Meridian
+        span.topbar-badge Admin
+    .topbar-spacer
+    .topbar-user 
+        if (user)
+            a(href=`${prefixAdmin}/my-account` class="topbar-account")
+                img(
+                    class="topbar-avatar"
+                    src=user.avatar ? user.avatar : "/admin/images/avatar.png"
+                    alt=user.fullName
+                )
+                span.topbar-user-name #{user.fullName}
+        if (user)
+            a(
+                href=`${prefixAdmin}/auth/logout`
+                class="icon-btn"
+                title="Đăng xuất"
+                aria-label="Đăng xuất"
+            )
+                i.fa-solid.fa-arrow-right-from-bracket

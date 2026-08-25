@@ -3,13 +3,13 @@ include ../../mixins/box-head.pug
 
 block main 
 
-    .container.my-3
+    .container.my-5
 
         include ../../partials/list-btn-user.pug
 
-        .row 
-            .col-12
-                +box-head("Lời mời kết bạn")
+        .section-head(style="margin-top: 24px")
+            div 
+                h2.section-title Lời mời kết bạn
 
         .row(data-users-accept=user.id)    
             each user in users

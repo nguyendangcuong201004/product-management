@@ -2,76 +2,100 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug  
 
 block main 
-    h1 Cài đặt chung
+    .page-header 
+        .page-header-info 
+            h1.page-header-title Cài đặt chung
+            p.page-header-desc Cấu hình thông tin hiển thị của website
+        .page-header-actions 
+            button(
+                type="submit"
+                form="form-settings-general"
+                class="btn btn-primary"
+            ) Lưu thay đổi
 
     +alert-success()
     +alert-error()
 
-
     form(
+        id="form-settings-general"
         action=`${prefixAdmin}/settings/general?_method=PATCH`
         method="POST"
         enctype="multipart/form-data"
     )
-        div(class="form-group")
-            label(for="websiteName") Tên Website
-            input(
-                type="text"
-                class="form-control"
-                id="websiteName"
-                name="websiteName"
-                value=(settingGeneral.websiteName)
-            )
-        div(class="form-group" upload-image)
-            label(for="logo") Logo
-            input(
-                type="file"
-                class="form-control-file"
-                id="logo"
-                name="logo"
-                accept="image/*"
-                upload-image-input
-            )
-            img(
-                src=settingGeneral.logo
-                class="image-preview"
-                upload-image-preview
-            )
-        div(class="form-group")
-            label(for="phone") Số điện thoại
-            input(
-                type="text"
-                class="form-control"
-                id="phone"
-                name="phone"
-                value=settingGeneral.phone
-            )
-        div(class="form-group")
-            label(for="email") Email
-            input(
-                type="email"
-                class="form-control"
-                id="email"
-                name="email"
-                value=settingGeneral.email
-            )
-        div(class="form-group")
-            label(for="address") Địa chỉ
-            input(
-                type="text"
-                class="form-control"
-                id="address"
-                name="address"
-                value=settingGeneral.address
-            )
-        div(class="form-group")
-            label(for="copyright") Copyright
-            input(
-                type="text"
-                class="form-control"
-                id="copyright"
-                name="copyright"
-                value=settingGeneral.copyright
-            )
-        div(class="form-group")
-            button(type="submit" class="btn btn-primary") Cập nhật 
+        .panel.form-panel 
+            .form-section 
+                p.form-section-title Website
+                .form-grid.cols-2 
+                    div 
+                        label(for="websiteName") Tên website
+                        input(
+                            type="text"
+                            class="form-control"
+                            id="websiteName"
+                            name="websiteName"
+                            value=(settingGeneral.websiteName)
+                        )
+                    div.upload-field 
+                        label(for="logo") Logo
+                        input(
+                            type="file"
+                            class="form-control-file"
+                            id="logo"
+                            name="logo"
+                            accept="image/*"
+                            upload-image-input
+                        )
+                        img(
+                            src=settingGeneral.logo
+                            class="image-preview"
+                            upload-image-preview
+                            alt="Logo preview"
+                        )
+
+            .form-section 
+                p.form-section-title Liên hệ
+                .form-grid.cols-3 
+                    div 
+                        label(for="phone") Số điện thoại
+                        input(
+                            type="text"
+                            class="form-control"
+                            id="phone"
+                            name="phone"
+                            value=settingGeneral.phone
+                        )
+                    div 
+                        label(for="email") Email
+                        input(
+                            type="email"
+                            class="form-control"
+                            id="email"
+                            name="email"
+                            value=settingGeneral.email
+                        )
+                    div 
+                        label(for="address") Địa chỉ
+                        input(
+                            type="text"
+                            class="form-control"
+                            id="address"
+                            name="address"
+                            value=settingGeneral.address
+                        )
+
+            .form-section 
+                p.form-section-title Khác
+                .form-grid 
+                    div 
+                        label(for="copyright") Copyright
+                        input(
+                            type="text"
+                            class="form-control"
+                            id="copyright"
+                            name="copyright"
+                            value=settingGeneral.copyright
+                        )
+                        p.form-hint Hiển thị ở chân trang website
+
+            .form-actions 
+                button(type="submit" class="btn btn-primary") Lưu thay đổi

@@ -1,20 +1,20 @@
 extends ../../layouts/default.pug
-include ../../mixins/box-head.pug
 include ../../mixins/draw.pug
-include ../../mixins/alert.pug
 
 block main
-    +alert-success()
-    +alert-error()
     .container.mt-5 
-        .row 
-            .col-xl-12 
-                +box-head("Sản phẩm nổi bật")
-        
-        +draw(productFeatured)
+        section.section 
+            .section-head 
+                div 
+                    p.section-overline Nổi bật
+                    h2.section-title Sản phẩm nổi bật
+                a.section-link(href="/products") Xem tất cả
+            +draw(productFeatured)
 
-        .row.mt-5  
-            .col-xl-12 
-                +box-head("Sản phẩm mới nhất")
-        
-        +draw(productNew)
+        section.section 
+            .section-head 
+                div 
+                    p.section-overline Mới lên kệ
+                    h2.section-title Sản phẩm mới nhất
+                a.section-link(href="/products") Xem tất cả
+            +draw(productNew)

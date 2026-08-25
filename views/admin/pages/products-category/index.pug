@@ -8,33 +8,47 @@ block main
 
         +alert-success()
 
-        h1(class="mb-4") Danh mục sản phẩm 
-
-        .card.mb-3 
-            .card-header Danh sách 
-            .card-body 
-                .row 
-                    .col-8 
-                    .col-4.text-right 
-                        if(role.permissions.includes("products-category_create"))
-                            a(
-                                href=`${prefixAdmin}/products-category/create`
-                                class="btn btn-success"
-                            ) + Thêm mới
-
-                table(
-                    class="table table-hover table-sm "
-                    checkbox-multi=""
+        .page-header 
+            .page-header-info 
+                h1.page-header-title Danh mục sản phẩm
+                p.page-header-desc Tổ chức danh mục theo cấu trúc cây
+            .page-header-actions 
+                if(role.permissions.includes("products-category_create"))
+                    a(
+                        href=`${prefixAdmin}/products-category/create`
+                        class="btn btn-primary"
                     )
-                    thead 
-                        tr 
-                            th
-                                input(type="checkbox" name="checkall")
-                            th STT 
-                            th Hình ảnh
-                            th Tiêu đề
-                            th Vị trí
-                            th Trạng thái 
-                            th Hành động
-                    tbody 
-                        +show-recursion(records)
+                        i.fa-solid.fa-plus
+                        | Thêm mới
+
+        if (records.length > 0)
+            .panel 
+                .table-responsive 
+                    table(
+                        class="table"
+                        checkbox-multi=""
+                    )
+                        thead 
+                            tr 
+                                th.checkbox-col
+                                    input(type="checkbox" name="checkall" aria-label="Chọn tất cả")
+                                th STT 
+                                th Ảnh
+                                th Tiêu đề
+                                th Vị trí
+                                th Trạng thái 
+                                th.text-right Hành động
+                        tbody 
+                            +show-recursion(records)
+
+            p.form-hint Danh mục con được thụt lề bằng ký hiệu -- theo cấp cha
+        else 
+            .panel 
+                .empty-state 
+                    .empty-state-icon
+                        i.fa-solid.fa-layer-group
+                    h3.empty-state-title Chưa có danh mục nào
+                    p.empty-state-desc Tạo danh mục đầu tiên để phân loại sản phẩm.
+                    .empty-state-actions
+                        if(role.permissions.includes("products-category_create"))
+                            a(href=`${prefixAdmin}/products-category/create` class="btn btn-secondary") Thêm danh mục

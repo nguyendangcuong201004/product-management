@@ -1,42 +1,62 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
-include ../../mixins/box-head.pug
 
 block main 
     +alert-success()
     +alert-error()
 
-    .container.my-3 
-        .row 
-            .col-12 
-                +box-head("Đặt hàng")
-                if (cartDetail.products.length > 0)
-                    table(class="table table-hover table-bordered " table-cart)
-                        thead
-                            tr  
-                                th STT 
-                                th Ảnh 
-                                th Tên sản phẩm 
-                                th Giá
-                                th Số lượng
-                                th Thành tiền
-                        tbody 
-                            each item, index in cartDetail.products
-                                tr 
-                                    td #{index + 1}
-                                    td 
-                                        img(src=item.infoProduct.thumbnail alt=item.infoProduct.title width="80px")
-                                    td #{item.infoProduct.title}
-                                    td #{Math.round(item.infoProduct.price - item.infoProduct.price * item.infoProduct.discountPercentage / 100)}$
-                                    td #{item.quantity}                                       
-                                    td #{item.quantity * Math.round(item.infoProduct.price - item.infoProduct.price * item.infoProduct.discountPercentage / 100)}$ 
-                    h3(class="text-right mt-5") Tổng đơn hàng: #{cartDetail.totalPrice}$
-                if (cartDetail.products.length > 0)
-                    .card.p-4.my-4 
+    .container.my-5 
+
+        if (cartDetail.products.length > 0)
+            .section-head 
+                div 
+                    p.section-overline Thanh toán
+                    h2.section-title Đặt hàng
+
+            .row
+                .col-lg-7.mb-4.mb-lg-0 
+                    .panel 
+                        .panel-header 
+                            p.panel-title Đơn hàng của bạn
+                        .table-responsive 
+                            table(class="table table-hover" table-cart)
+                                thead
+                                    tr  
+                                        th STT 
+                                        th Ảnh 
+                                        th Sản phẩm 
+                                        th.text-right Giá
+                                        th Số lượng
+                                        th.text-right Thành tiền
+                                tbody 
+                                    each item, index in cartDetail.products
+                                        tr 
+                                            td.cell-muted.tnum #{index + 1}
+                                            td
+                                                img(
+                                                    class="table-thumb"
+                                                    src=item.infoProduct.thumbnail
+                                                    alt=item.infoProduct.title
+                                                    loading="lazy"
+                                                )
+                                            td #{item.infoProduct.title}
+                                            td.cell-num #{new Intl.NumberFormat("vi-VN").format(Math.round(item.infoProduct.price - item.infoProduct.price * item.infoProduct.discountPercentage / 100))}₫
+                                            td.tnum #{item.quantity}
+                                            td.cell-num.cell-strong #{new Intl.NumberFormat("vi-VN").format(item.quantity * Math.round(item.infoProduct.price - item.infoProduct.price * item.infoProduct.discountPercentage / 100))}₫
+
+                        .cart-summary(style="padding: 16px 20px")
+                            div(style="text-align: right")
+                                p.cart-total-label Tổng đơn hàng
+                                p.cart-total-value(style="font-size: 24px") #{new Intl.NumberFormat("vi-VN").format(cartDetail.totalPrice)}₫
+
+                .col-lg-5 
+                    .panel.form-panel(style="max-width: none; padding: 28px")
                         form(
                             action="/checkout/order"
                             method="POST"
                         )
+                            p.form-section-title Thông tin nhận hàng
+
                             div(class="form-group")
                                 label(for="fullName") Họ tên
                                 input(
@@ -45,7 +65,9 @@ block main
                                     id="fullName"
                                     name="fullName"
                                     required 
+                                    placeholder="Nguyễn Văn A"
                                 )
+
                             div(class="form-group")
                                 label(for="phone") Số điện thoại 
                                 input(
@@ -54,7 +76,9 @@ block main
                                     id="phone"
                                     name="phone"
                                     required 
+                                    placeholder="0912 345 678"
                                 )
+
                             div(class="form-group")
                                 label(for="address") Địa chỉ
                                 input(
@@ -63,11 +87,20 @@ block main
                                     id="address"
                                     name="address"
                                     required 
+                                    placeholder="Số nhà, đường, phường/xã, tỉnh/thành phố"
                                 )
-                            div(class="form-group")
-                                button(
-                                    type="submit"
-                                    class="btn btn-success btn-block"
-                                ) ĐẶT HÀNG 
-                            
-                    
+
+                            button(
+                                type="submit"
+                                class="btn btn-primary btn-block btn-lg"
+                                style="margin-top: 8px"
+                            ) Đặt hàng
+        else 
+            .panel 
+                .empty-state 
+                    .empty-state-icon
+                        i.fa-solid.fa-cart-shopping
+                    h3.empty-state-title Chưa có sản phẩm để thanh toán
+                    p.empty-state-desc Hãy thêm sản phẩm vào giỏ hàng trước khi đặt hàng.
+                    .empty-state-actions
+                        a(href="/products" class="btn btn-primary") Mua sắm ngay

@@ -321,3 +321,64 @@ if (listDeleteAccounts.length > 0){
         })
     })
 }
+
+// ===== MERIDIAN UI (additive — không thay đổi logic hiện có) =====
+
+// Active nav item theo đường dẫn hiện tại
+(function () {
+    const path = window.location.pathname;
+    document.querySelectorAll(".sider .nav-item").forEach((link) => {
+        const href = link.getAttribute("href");
+        if (!href) return;
+        const isActive =
+            path === href ||
+            (path.startsWith(href + "/") && href !== "/admin/dashboard");
+        if (isActive) link.classList.add("active");
+    });
+})();
+
+// Sidebar off-canvas (< 1024px)
+(function () {
+    const sider = document.getElementById("admin-sider");
+    const toggle = document.getElementById("sidebar-toggle");
+    const backdrop = document.getElementById("sidebar-backdrop");
+    if (!sider || !toggle) return;
+
+    const close = () => {
+        sider.classList.remove("open");
+        if (backdrop) backdrop.classList.remove("show");
+    };
+
+    toggle.addEventListener("click", () => {
+        sider.classList.toggle("open");
+        if (backdrop) {
+            backdrop.classList.toggle("show", sider.classList.contains("open"));
+        }
+    });
+
+    if (backdrop) backdrop.addEventListener("click", close);
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") close();
+    });
+})();
+
+// Bulk selection bar (chỉ hiển thị khi có checkbox được chọn)
+(function () {
+    const table = document.querySelector("[checkbox-multi]");
+    const bar = document.querySelector("[bulk-bar]");
+    if (!table || !bar) return;
+
+    const countEl = bar.querySelector("[bulk-count]");
+    const boxes = table.querySelectorAll('input[name="id"]');
+
+    const sync = () => {
+        const checked = table.querySelectorAll('input[name="id"]:checked').length;
+        bar.classList.toggle("show", checked > 0);
+        if (countEl) countEl.textContent = checked + " đã chọn";
+    };
+
+    boxes.forEach((b) => b.addEventListener("change", sync));
+
+    const checkAll = table.querySelector('input[name="checkall"]');
+    if (checkAll) checkAll.addEventListener("change", sync);
+})();

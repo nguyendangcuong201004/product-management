@@ -2,30 +2,42 @@ extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 
 block main 
-    .container.my-3 
+    .container.my-5 
         include ../../partials/list-btn-user.pug
-        .row 
-            .col-12 
-                +box-head("Danh sách phòng")
-        .row 
+
+        .section-head(style="margin-top: 24px")
+            div 
+                h2.section-title Danh sách phòng
+                p.page-header-desc Tạo phòng chat chung với nhiều bạn bè
+
+        .row.mb-4 
             .col-12 
                 a(
                     href="/rooms-chat/create"
-                    class="btn btn-sm btn-success mr-1 mb-3"
-                ) Tạo phòng chat
+                    class="btn btn-secondary btn-sm"
+                )
+                    i.fa-solid.fa-plus
+                    | Tạo phòng chat
+
         .row 
-            .col-6
-                each room in listRoomChats
-                    div(class="box-room")
-                        div(class="inner-avatar")
-                            img(
-                                src="https://i.imgur.com/ttyjQxs.jpeg"
-                                alt="avatar"
-                            )
-                        div(class="inner-info")
-                            div(class="inner-name") #{room.title}
-                            div(class="inner-buttons")
-                                a(
-                                    href=`/chat/${room.id}`
-                                    class="btn btn-sm btn-primary mr-1"
-                                ) Nhắn tin
+            .col-12
+                if (listRoomChats.length > 0)
+                    each room in listRoomChats
+                        div(class="box-room")
+                            div(class="inner-avatar")
+                                img(
+                                    src="https://i.imgur.com/ttyjQxs.jpeg"
+                                    alt="avatar"
+                                )
+                            div(class="inner-info")
+                                div(class="inner-name") #{room.title}
+                            a(
+                                href=`/chat/${room.id}`
+                                class="btn btn-sm btn-primary"
+                            ) Nhắn tin
+                else 
+                    .empty-state(style="padding: 48px 24px") 
+                        .empty-state-icon
+                            i.fa-solid.fa-comments
+                        h3.empty-state-title Chưa có phòng chat nào
+                        p.empty-state-desc Tạo phòng chat để trò chuyện cùng nhiều bạn bè.
